@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SylphScript
 {
-    public interface ITypeParser
+    public interface IAdditionalParser
     {
         (ObjectHolder Object, bool Success) Parse(ref int index, string code);
     }

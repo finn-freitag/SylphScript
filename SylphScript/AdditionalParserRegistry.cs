@@ -1,4 +1,4 @@
-﻿using SylphScript.TypeParsers;
+﻿using SylphScript.AdditionalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SylphScript
 {
-    public static class TypeParserRegistry
+    public static class AdditionalParserRegistry
     {
-        public static List<ITypeParser> Parsers = new List<ITypeParser>()
+        public static List<IAdditionalParser> Parsers = new List<IAdditionalParser>()
         {
             new NullParser(),
             new NumberParser(),

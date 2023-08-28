@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SylphScript.TypeParsers
+namespace SylphScript.AdditionalParsers
 {
-    public class NullParser : ITypeParser
+    public class NullParser : IAdditionalParser
     {
         public (ObjectHolder Object, bool Success) Parse(ref int index, string code)
         {

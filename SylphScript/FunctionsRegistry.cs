@@ -1,5 +1,5 @@
 ﻿using SylphScript.Functions;
-using SylphScript.TypeParsers;
+using SylphScript.AdditionalParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -25,10 +25,10 @@ namespace SylphScript
 
         private static IFunction Parse(ref int i, string code)
         {
-            for (int p = 0; p < TypeParserRegistry.Parsers.Count; p++)
+            for (int p = 0; p < AdditionalParserRegistry.Parsers.Count; p++)
             {
                 int backupI = i;
-                var parserRes = TypeParserRegistry.Parsers[p].Parse(ref i, code);
+                var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code);
                 if (parserRes.Success)
                 {
                     _constFunction constFunction = new _constFunction(parserRes.Object);
