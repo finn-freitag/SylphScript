@@ -28,6 +28,7 @@ namespace SylphScript
         public static IFunction Parse(ref int i, string code, VariableHolder vHolder)
         {
             ParserHelper.SkipSpace(ref i, code);
+
             for (int p = 0; p < AdditionalParserRegistry.Parsers.Count; p++)
             {
                 int backupI = i;
@@ -36,91 +37,88 @@ namespace SylphScript
                 else i = backupI;
             }
 
-            for (; i < code.Length; i++) // Enumerate letters of code
+            ParserHelper.SkipSpace(ref i, code);
+            string currentFuncName = ParserHelper.GetIdentifier(ref i, code); // get function name
+            if (currentFuncName != "")
             {
                 ParserHelper.SkipSpace(ref i, code);
-                string currentFuncName = ParserHelper.GetIdentifier(ref i, code); // get function name
-                if (currentFuncName != "")
+                List<IFunction> parameters = new List<IFunction>();
+                List<ReferenceName> paramTypes = new List<ReferenceName>();
+                bool first = true;
+                while (code[i] != ')') // Enumerate parameters
                 {
-                    ParserHelper.SkipSpace(ref i, code);
-                    List<IFunction> parameters = new List<IFunction>();
-                    List<ReferenceName> paramTypes = new List<ReferenceName>();
-                    bool first = true;
-                    while (code[i] != ')') // Enumerate parameters
-                    {
-                        if ((first && code[i] != '(') || (!first && code[i] != ',')) throw new InvalidOperationException("Invalid syntax!");
-                        first = false;
-                        i++;
-                        ParserHelper.SkipSpace(ref i, code);
-                        IFunction func = Parse(ref i, code, vHolder);
-                        parameters.Add(func);
-                        paramTypes.Add(func.AssignedReturnType);
-                        ParserHelper.SkipSpace(ref i, code);
-                    }
+                    if ((first && code[i] != '(') || (!first && code[i] != ',')) throw new InvalidOperationException("Invalid syntax!");
+                    first = false;
                     i++;
-                    IFunction result = null;
-                    for (int f = 0; f < FunctionsRegistry.Functions.Count; f++) // Enumerate functions, find matching function
+                    if (code[i] == ')') break;
+                    ParserHelper.SkipSpace(ref i, code);
+                    IFunction func = Parse(ref i, code, vHolder);
+                    parameters.Add(func);
+                    paramTypes.Add(func.AssignedReturnType);
+                    ParserHelper.SkipSpace(ref i, code);
+                }
+                i++;
+                IFunction result = null;
+                for (int f = 0; f < FunctionsRegistry.Functions.Count; f++) // Enumerate functions, find matching function
+                {
+                    if (FunctionsRegistry.Functions[f].FullName == currentFuncName)
+                    {
+                        ReferenceName returnType = FunctionsRegistry.Functions[f].Parameters.GetResultType(paramTypes.ToArray());
+                        if (returnType != null)
+                        {
+                            result = FunctionsRegistry.Functions[f].GetNewInstance();
+                            result.AssignedReturnType = returnType;
+                            result.AssignedParameters = parameters.ToArray();
+                            return result;
+                        }
+                    }
+                }
+                if (result == null)
+                {
+                    for (int f = 0; f < FunctionsRegistry.Functions.Count; f++) // Enumerate functions, find function that matches using implicit conversions
                     {
                         if (FunctionsRegistry.Functions[f].FullName == currentFuncName)
                         {
-                            ReferenceName returnType = FunctionsRegistry.Functions[f].Parameters.GetResultType(paramTypes.ToArray());
-                            if (returnType != null)
+                            for (int j = 0; j < FunctionsRegistry.Functions[f].Parameters.permutation.Count; j++)
                             {
-                                result = FunctionsRegistry.Functions[f].GetNewInstance();
-                                result.AssignedReturnType = returnType;
-                                result.AssignedParameters = parameters.ToArray();
-                                return result;
-                            }
-                        }
-                    }
-                    if (result == null)
-                    {
-                        for (int f = 0; f < FunctionsRegistry.Functions.Count; f++) // Enumerate functions, find function that matches using implicit conversions
-                        {
-                            if (FunctionsRegistry.Functions[f].FullName == currentFuncName)
-                            {
-                                for (int j = 0; j < FunctionsRegistry.Functions[f].Parameters.permutation.Count; j++)
+                                if (FunctionsRegistry.Functions[f].Parameters.permutation[j].Parameters.Count == paramTypes.Count)
                                 {
-                                    if (FunctionsRegistry.Functions[f].Parameters.permutation[j].Parameters.Count == paramTypes.Count)
+                                    bool foundConversion = true;
+                                    List<IConversion> conversions = new List<IConversion>();
+                                    for (int c = 0; c < paramTypes.Count; c++)
                                     {
-                                        bool foundConversion = true;
-                                        List<IConversion> conversions = new List<IConversion>();
+                                        IConversion con = ConversionRegistry.GetImplicitConversion(paramTypes[c], FunctionsRegistry.Functions[f].Parameters.permutation[j].Parameters[c]);
+                                        if (con == null)
+                                        {
+                                            foundConversion = false;
+                                            break;
+                                        }
+                                        else conversions.Add(con);
+                                    }
+                                    if (foundConversion)
+                                    {
                                         for (int c = 0; c < paramTypes.Count; c++)
                                         {
-                                            IConversion con = ConversionRegistry.GetImplicitConversion(paramTypes[c], FunctionsRegistry.Functions[f].Parameters.permutation[j].Parameters[c]);
-                                            if (con == null)
-                                            {
-                                                foundConversion = false;
-                                                break;
-                                            }
-                                            else conversions.Add(con);
+                                            _implConvertFunction implConFunc = new _implConvertFunction(conversions[c]);
+                                            implConFunc.AssignedParameters = new IFunction[] { parameters[c] };
+                                            parameters[c] = implConFunc;
                                         }
-                                        if (foundConversion)
-                                        {
-                                            for(int c = 0; c < paramTypes.Count; c++)
-                                            {
-                                                _implConvertFunction implConFunc = new _implConvertFunction(conversions[c]);
-                                                implConFunc.AssignedParameters = new IFunction[] { parameters[c] };
-                                                parameters[c] = implConFunc;
-                                            }
-                                            result = FunctionsRegistry.Functions[f].GetNewInstance();
-                                            result.AssignedReturnType = FunctionsRegistry.Functions[f].Parameters.permutation[j].Result;
-                                            result.AssignedParameters = parameters.ToArray();
-                                            return result;
-                                        }
+                                        result = FunctionsRegistry.Functions[f].GetNewInstance();
+                                        result.AssignedReturnType = FunctionsRegistry.Functions[f].Parameters.permutation[j].Result;
+                                        result.AssignedParameters = parameters.ToArray();
+                                        return result;
                                     }
                                 }
                             }
                         }
                     }
-                    throw new InvalidOperationException("Unknown function: \"" + currentFuncName + "\" (" + parameters.Count + " parameters)!");
                 }
-                else
-                {
-                    throw new InvalidOperationException("Invalid syntax!");
-                }
+                throw new InvalidOperationException("Unknown function: \"" + currentFuncName + "\" (" + parameters.Count + " parameters)!");
             }
-            throw new InvalidOperationException("Something went wrong!");
+            else
+            {
+                throw new InvalidOperationException("Invalid syntax!");
+            }
         }
     }
 }
