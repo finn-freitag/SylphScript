@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SylphScript
 {
-    public interface IASTNode
+    public interface ITypeParser
     {
-        IASTNode GetNext();
+        (ObjectHolder Object, bool Success) Parse(ref int index, string code);
     }
 }
