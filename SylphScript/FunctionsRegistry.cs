@@ -14,6 +14,7 @@ namespace SylphScript
         {
             new print(),
             new readLine(),
+            new readKey(),
         };
     }
 }
