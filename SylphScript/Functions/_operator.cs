@@ -37,7 +37,7 @@ namespace SylphScript.Functions
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
             if (AssignedParameters.Length != 2) throw new InvalidOperationException("Operator requires two arguments!");
-            IOperator @operator = OperatorRegistry.GetOperator(AssignedParameters[0].FullName, AssignedParameters[1].FullName);
+            IOperator @operator = OperatorRegistry.GetOperator(AssignedParameters[0].AssignedReturnType, AssignedParameters[1].AssignedReturnType);
             if (@operator == null) throw new InvalidOperationException("Operator not found!");
             return new ObjectHolder(@operator.Process(AssignedParameters[0].GetResult(variableHolder), AssignedParameters[1].GetResult(variableHolder)), @operator.Result);
         }

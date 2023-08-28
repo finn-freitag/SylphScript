@@ -14,6 +14,7 @@ namespace SylphScript
             new NullParser(),
             new NumberParser(),
             new CharParser(),
+            new StringParser(),
         };
     }
 }

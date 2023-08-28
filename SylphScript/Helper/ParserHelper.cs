@@ -28,7 +28,7 @@ namespace SylphScript.Helper
         public static bool CheckPos(int i, string code, string target)
         {
             if (i + target.Length > code.Length) return false;
-            for (int j = i; j < target.Length; j++)
+            for (int j = i; j - i < target.Length; j++)
             {
                 if (code[j] != target[j - i]) return false;
             }

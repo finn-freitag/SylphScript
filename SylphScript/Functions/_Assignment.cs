@@ -24,7 +24,7 @@ namespace SylphScript.Functions
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            if (AssignedParameters.Length != 2 || AssignedParameters[0].FullName != "string") throw new InvalidOperationException("Invalid parameters!");
+            if (AssignedParameters.Length != 2 || AssignedParameters[0].AssignedReturnType != "string") throw new InvalidOperationException("Invalid parameters!");
             var varContent = AssignedParameters[1].GetResult(variableHolder);
             variableHolder.AddVariable((string)AssignedParameters[0].GetResult(variableHolder).Object, varContent);
             return varContent;

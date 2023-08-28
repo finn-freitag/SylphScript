@@ -14,7 +14,7 @@ namespace SylphScript
         {
             int i = 0;
             IFunction lastFunction = Parse(ref i, code);
-            while (code.Length - i < 2)
+            while (code.Length - i > 2)
             {
                 IFunction newFunction = Parse(ref i, code);
                 lastFunction.NextFunction = newFunction;
