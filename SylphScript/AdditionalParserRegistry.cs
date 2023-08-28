@@ -15,6 +15,8 @@ namespace SylphScript
             new NumberParser(),
             new CharParser(),
             new StringParser(),
+            new VariableAssignmentParser(),
+            new VariableGetterParser(),
         };
     }
 }

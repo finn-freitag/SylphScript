@@ -11,32 +11,36 @@ namespace SylphScript
     {
         public VariableHolder Parent = null;
         public ReferenceName PositionFullName = "";
-        public Dictionary<ReferenceName, ObjectHolder> Variables = new Dictionary<ReferenceName, ObjectHolder>();
+        public Dictionary<string, ObjectHolder> Variables = new Dictionary<string, ObjectHolder>();
 
         public VariableHolder()
         {
             
         }
 
-        public void InitAsBase()
-        {
-            print printC = new print();
-            Variables.Add(printC.FullName, new ObjectHolder(printC, printC.FullName));
-            _Assignment _Assignment = new _Assignment();
-            Variables.Add(_Assignment.FullName, new ObjectHolder(_Assignment, _Assignment.FullName));
-        }
-
-        public void AddVariable(ReferenceName name, ObjectHolder value)
+        public void AddVariable(string name, ObjectHolder value)
         {
             if (Variables.ContainsKey(name)) throw new InvalidOperationException("This variable still exists!");
             Variables.Add(name, value);
         }
 
-        public ObjectHolder GetVariable(ReferenceName name)
+        public void SetVariable(string name, ObjectHolder value)
+        {
+            if (!Variables.ContainsKey(name)) throw new InvalidOperationException("This variable doesn't exist!");
+            if (Variables[name].TypeFullName != value.TypeFullName) throw new InvalidOperationException("Variable type doesn't match the type of assignment!");
+            Variables[name].Object = value.Object;
+        }
+
+        public ObjectHolder GetVariable(string name)
         {
             if(Variables.ContainsKey(name))return Variables[name];
-            if (Parent == null) throw new InvalidOperationException("Variable does not exist!");
+            if (Parent == null) throw new InvalidOperationException("This variable doesn't exist!");
             return Parent.GetVariable(name);
+        }
+
+        public bool VariableExist(string name)
+        {
+            return Variables.ContainsKey(name);
         }
 
         public VariableHolder GetSubHolder(string AdditionalPositionName)

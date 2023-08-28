@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SylphScript
 {
-    public interface IAdditionalParser
+    public interface IType
     {
-        (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder);
+        string Name { get; }
     }
 }

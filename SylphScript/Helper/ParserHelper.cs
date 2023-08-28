@@ -60,5 +60,16 @@ namespace SylphScript.Helper
             }
             return num;
         }
+
+        public static void SkipSpace(ref int i, string code) // Skip ' ', '\t', '\r', '\n', comments
+        {
+            while (i < code.Length)
+            {
+                int j = i;
+                if (code[i] == ' ' || code[i] == '\t' || code[i] == '\r' || code[i] == '\n') i++;
+                else if (!ParserHelper.SkipDoubleSlashComment(ref i, code)) ParserHelper.SkipSlashAsteriskComment(ref i, code);
+                if (j == i) return;
+            }
+        }
     }
 }

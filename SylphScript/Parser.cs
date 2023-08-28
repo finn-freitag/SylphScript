@@ -13,39 +13,36 @@ namespace SylphScript
         public static IFunction Parse(string code)
         {
             int i = 0;
-            IFunction lastFunction = Parse(ref i, code);
+            VariableHolder vHolder = new VariableHolder();
+            IFunction lastFunction = Parse(ref i, code, vHolder);
+            IFunction first = lastFunction;
             while (code.Length - i > 2)
             {
-                IFunction newFunction = Parse(ref i, code);
+                IFunction newFunction = Parse(ref i, code, vHolder);
                 lastFunction.NextFunction = newFunction;
                 lastFunction = newFunction;
             }
-            return lastFunction;
+            return first;
         }
 
-        private static IFunction Parse(ref int i, string code)
+        public static IFunction Parse(ref int i, string code, VariableHolder vHolder)
         {
+            ParserHelper.SkipSpace(ref i, code);
             for (int p = 0; p < AdditionalParserRegistry.Parsers.Count; p++)
             {
                 int backupI = i;
-                var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code);
-                if (parserRes.Success)
-                {
-                    _constFunction constFunction = new _constFunction(parserRes.Object);
-                    constFunction.AssignedReturnType = parserRes.Object.TypeFullName;
-                    return constFunction;
-                }
+                var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code, vHolder);
+                if (parserRes.Success) return parserRes.Function;
                 else i = backupI;
             }
 
             for (; i < code.Length; i++) // Enumerate letters of code
             {
-                SkipSpace(ref i, code);
-                string currentFuncName = "";
-                currentFuncName = ParserHelper.GetIdentifier(ref i, code); // get function name
+                ParserHelper.SkipSpace(ref i, code);
+                string currentFuncName = ParserHelper.GetIdentifier(ref i, code); // get function name
                 if (currentFuncName != "")
                 {
-                    SkipSpace(ref i, code);
+                    ParserHelper.SkipSpace(ref i, code);
                     List<IFunction> parameters = new List<IFunction>();
                     List<ReferenceName> paramTypes = new List<ReferenceName>();
                     bool first = true;
@@ -54,11 +51,11 @@ namespace SylphScript
                         if ((first && code[i] != '(') || (!first && code[i] != ',')) throw new InvalidOperationException("Invalid syntax!");
                         first = false;
                         i++;
-                        SkipSpace(ref i, code);
-                        IFunction func = Parse(ref i, code);
+                        ParserHelper.SkipSpace(ref i, code);
+                        IFunction func = Parse(ref i, code, vHolder);
                         parameters.Add(func);
                         paramTypes.Add(func.AssignedReturnType);
-                        SkipSpace(ref i, code);
+                        ParserHelper.SkipSpace(ref i, code);
                     }
                     i++;
                     IFunction result = null;
@@ -124,17 +121,6 @@ namespace SylphScript
                 }
             }
             throw new InvalidOperationException("Something went wrong!");
-        }
-
-        private static void SkipSpace(ref int i, string code) // Skip ' ', '\t', '\r', '\n', comments
-        {
-            while (i < code.Length)
-            {
-                int j = i;
-                if (code[i] == ' ' || code[i] == '\t' || code[i] == '\r' || code[i] == '\n') i++;
-                else if (!ParserHelper.SkipDoubleSlashComment(ref i, code)) ParserHelper.SkipSlashAsteriskComment(ref i, code);
-                if (j == i) return;
-            }
         }
     }
 }

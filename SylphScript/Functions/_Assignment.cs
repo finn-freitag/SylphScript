@@ -14,19 +14,27 @@ namespace SylphScript.Functions
         public ReferenceName FullName => "_assignment";
         public ArgResPermutation Parameters { get
             {
-                return ArgResPermutation.Build().Add("object", "string", "object");
+                return ArgResPermutation.Build().Add(value.AssignedReturnType);
             } }
+
+        string variableName = "";
+        IFunction value = null;
+
+        public _Assignment(string variableName, IFunction value)
+        {
+            this.variableName = variableName;
+            this.value = value;
+        }
 
         public IFunction GetNewInstance()
         {
-            return new _Assignment();
+            return new _Assignment(variableName, value);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            if (AssignedParameters.Length != 2 || AssignedParameters[0].AssignedReturnType != "string") throw new InvalidOperationException("Invalid parameters!");
-            var varContent = AssignedParameters[1].GetResult(variableHolder);
-            variableHolder.AddVariable((string)AssignedParameters[0].GetResult(variableHolder).Object, varContent);
+            var varContent = value.GetResult(variableHolder);
+            variableHolder.AddVariable(variableName, value.GetResult(variableHolder));
             return varContent;
         }
     }

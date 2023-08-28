@@ -1,4 +1,5 @@
-﻿using SylphScript.Helper;
+﻿using SylphScript.Functions;
+using SylphScript.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace SylphScript.AdditionalParsers
 {
     public class NullParser : IAdditionalParser
     {
-        public (ObjectHolder Object, bool Success) Parse(ref int index, string code)
+        public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             if (ParserHelper.CheckPos(index, code, "null"))
             {
                 index += 4;
-                return (ObjectHolder.Null, true);
+                return (new _constFunction(ObjectHolder.Null), true);
             }
             return (null, false);
         }

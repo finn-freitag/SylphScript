@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SylphScript.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SylphScript.AdditionalParsers
 {
     public class CharParser : IAdditionalParser
     {
-        public (ObjectHolder Object, bool Success) Parse(ref int index, string code)
+        public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             if (code[index] != '\'') return (null, false);
             int originalIndex = index;
@@ -24,7 +25,7 @@ namespace SylphScript.AdditionalParsers
                 if (!special)
                 {
                     index += 2;
-                    return (new ObjectHolder(code[index - 2], "char"), true);
+                    return (new _constFunction(new ObjectHolder(code[index - 2], "char")), true);
                 }
                 else
                 {
@@ -37,7 +38,7 @@ namespace SylphScript.AdditionalParsers
                     if (code[index] == 'b') c = '\b';
                     if (code[index] == '\'') c = '\'';
                     index += 2;
-                    return (new ObjectHolder(c, "char"), true);
+                    return (new _constFunction(new ObjectHolder(c, "char")), true);
                 }
             }
             catch

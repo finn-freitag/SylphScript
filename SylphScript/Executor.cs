@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SylphScript.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace SylphScript
             VariableHolder holder = new VariableHolder();
             while (func != null)
             {
+                if (func is _getVariable) throw new InvalidOperationException("Variable is not a command!");
                 func.GetResult(holder);
                 func = func.NextFunction;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SylphScript.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SylphScript.AdditionalParsers
 {
     public class NumberParser : IAdditionalParser
     {
-        public (ObjectHolder Object, bool Success) Parse(ref int index, string code)
+        public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             try
             {
@@ -57,9 +58,9 @@ namespace SylphScript.AdditionalParsers
                 string numAsStr = Convert.ToString(number);
                 index = maxI + 1;
                 if (numAsStr.Contains("."))
-                    return (new ObjectHolder(number, "double"), true);
+                    return (new _constFunction(new ObjectHolder(number, "double")), true);
                 else
-                    return (new ObjectHolder((int)number, "int"), true);
+                    return (new _constFunction(new ObjectHolder((int)number, "int")), true);
             }
             catch { }
             return (null, false);
