@@ -28,7 +28,7 @@ namespace SylphScript.AdditionalParsers
                 if (!TypeRegistry.ContainsType(firstID)) return (null, false);
                 if (value.AssignedReturnType != firstID)
                 {
-                    IConversion conversion = ConversionRegistry.GetConversion(value.AssignedReturnType, firstID);
+                    IConversion conversion = ConversionRegistry.GetImplicitConversion(value.AssignedReturnType, firstID);
                     if (conversion == null) return (null, false);
                     _implConvertFunction convert = new _implConvertFunction(conversion);
                     convert.AssignedParameters = new IFunction[] { value };
@@ -43,7 +43,7 @@ namespace SylphScript.AdditionalParsers
                 if (!vHolder.VariableExist(firstID)) return (null, false);
                 if (vHolder.GetVariable(firstID).TypeFullName != value.AssignedReturnType)
                 {
-                    IConversion conversion = ConversionRegistry.GetConversion(value.AssignedReturnType, vHolder.GetVariable(firstID).TypeFullName);
+                    IConversion conversion = ConversionRegistry.GetImplicitConversion(value.AssignedReturnType, vHolder.GetVariable(firstID).TypeFullName);
                     if (conversion == null) return (null, false);
                     _implConvertFunction convert = new _implConvertFunction(conversion);
                     convert.AssignedParameters = new IFunction[] { value };
