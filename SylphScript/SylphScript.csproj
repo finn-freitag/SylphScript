@@ -61,6 +61,7 @@
     <Compile Include="Functions\_getVariable.cs" />
     <Compile Include="Functions\_implConvertFunction.cs" />
     <Compile Include="Functions\_operator.cs" />
+    <Compile Include="Functions\_Reassignment.cs" />
     <Compile Include="Helper\ParserHelper.cs" />
     <Compile Include="IConversion.cs" />
     <Compile Include="IFunction.cs" />

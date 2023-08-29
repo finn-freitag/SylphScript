@@ -6,21 +6,26 @@ using System.Threading.Tasks;
 
 namespace SylphScript.Functions
 {
-    public class _Assignment : IFunction
+    public class _Reassignment : IFunction
     {
         public IFunction NextFunction { get; set; }
-        public ReferenceName AssignedReturnType { get { return value.AssignedReturnType; } set { } }
+        public ReferenceName AssignedReturnType { get; set; }
         public IFunction[] AssignedParameters { get; set; }
-        public ReferenceName FullName => "_assignment";
-        public ArgResPermutation Parameters { get
+
+        public ReferenceName FullName => "_reassignment";
+
+        public ArgResPermutation Parameters
+        {
+            get
             {
                 return ArgResPermutation.Build().Add(value.AssignedReturnType);
-            } }
+            }
+        }
 
         string variableName = "";
         IFunction value = null;
 
-        public _Assignment(string variableName, IFunction value)
+        public _Reassignment(string variableName, IFunction value)
         {
             this.variableName = variableName;
             this.value = value;
@@ -28,14 +33,14 @@ namespace SylphScript.Functions
 
         public IFunction GetNewInstance()
         {
-            return new _Assignment(variableName, value);
+            return new _Reassignment(variableName, value);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            var varContent = value.GetResult(variableHolder);
-            variableHolder.AddVariable(variableName, value.GetResult(variableHolder));
-            return varContent;
+            ObjectHolder res = value.GetResult(variableHolder);
+            variableHolder.SetVariable(variableName, res);
+            return res;
         }
     }
 }

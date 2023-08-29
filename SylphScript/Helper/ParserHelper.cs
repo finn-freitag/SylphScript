@@ -45,7 +45,7 @@ namespace SylphScript.Helper
                 i++;
             }
             string str = sb.ToString();
-            if (str == "") i++;
+            //if (str == "") i++;
             return str.ToString();
         }
 

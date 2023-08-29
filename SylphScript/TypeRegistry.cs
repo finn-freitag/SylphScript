@@ -18,5 +18,14 @@ namespace SylphScript
             new @int(),
             new @string(),
         };
+
+        public static bool ContainsType(ReferenceName type)
+        {
+            for(int i = 0; i < Types.Count; i++)
+            {
+                if (Types[i].Name == type) return true;
+            }
+            return false;
+        }
     }
 }
