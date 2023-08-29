@@ -10,7 +10,7 @@ namespace SylphScript.Functions
     {
         public IFunction NextFunction { get; set; }
 
-        public ReferenceName AssignedReturnType { get; set; }
+        public ReferenceName AssignedReturnType { get { return op.Result; } set { } }
 
         public IFunction[] AssignedParameters { get; set; }
 
@@ -20,26 +20,33 @@ namespace SylphScript.Functions
         {
             get
             {
-                ArgResPermutation res = ArgResPermutation.Build();
-                for(int i = 0; i < OperatorRegistry.Operators.Count; i++)
-                {
-                    res.Add(OperatorRegistry.Operators[i].Result, OperatorRegistry.Operators[i].Type1, OperatorRegistry.Operators[i].Type2);
-                }
-                return res;
+                if (op.IsOneParameterOperator) return ArgResPermutation.Build().Add(op.Result, op.Type1);
+                else return ArgResPermutation.Build().Add(op.Result, op.Type1, op.Type2);
             }
+        }
+
+        private IOperator op = null;
+
+        public _operator(IOperator op)
+        {
+            this.op = op;
         }
 
         public IFunction GetNewInstance()
         {
-            return new _operator();
+            return new _operator(op);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            if (AssignedParameters.Length != 2) throw new InvalidOperationException("Operator requires two arguments!");
-            IOperator @operator = OperatorRegistry.GetOperator(AssignedParameters[0].AssignedReturnType, AssignedParameters[1].AssignedReturnType);
-            if (@operator == null) throw new InvalidOperationException("Operator not found!");
-            return new ObjectHolder(@operator.Process(AssignedParameters[0].GetResult(variableHolder), AssignedParameters[1].GetResult(variableHolder)), @operator.Result);
+            if (op.IsOneParameterOperator)
+            {
+                return op.Process(AssignedParameters[0], null, variableHolder);
+            }
+            else
+            {
+                return op.Process(AssignedParameters[0], AssignedParameters[1], variableHolder);
+            }
         }
     }
 }

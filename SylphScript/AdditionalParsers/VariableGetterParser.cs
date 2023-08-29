@@ -10,6 +10,8 @@ namespace SylphScript.AdditionalParsers
 {
     public class VariableGetterParser : IAdditionalParser
     {
+        public bool isTypeParser => false;
+
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             string identifier = ParserHelper.GetIdentifier(ref index, code);

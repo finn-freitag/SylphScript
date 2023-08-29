@@ -19,22 +19,29 @@ namespace SylphScript
             while (code.Length - i > 2)
             {
                 IFunction newFunction = Parse(ref i, code, vHolder);
+                if (newFunction is _getVariable) throw new InvalidOperationException("Variable is not a command!");
                 lastFunction.NextFunction = newFunction;
                 lastFunction = newFunction;
             }
             return first;
         }
 
-        public static IFunction Parse(ref int i, string code, VariableHolder vHolder)
+        public static IFunction Parse(ref int i, string code, VariableHolder vHolder, bool useTypeParsers = true, bool useAdditionalParsers = true)
         {
-            ParserHelper.SkipSpace(ref i, code);
-
-            for (int p = 0; p < AdditionalParserRegistry.Parsers.Count; p++)
+            if (useAdditionalParsers || useTypeParsers)
             {
-                int backupI = i;
-                var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code, vHolder);
-                if (parserRes.Success) return parserRes.Function;
-                else i = backupI;
+                ParserHelper.SkipSpace(ref i, code);
+
+                for (int p = 0; p < AdditionalParserRegistry.Parsers.Count; p++)
+                {
+                    if(useAdditionalParsers || (useTypeParsers && AdditionalParserRegistry.Parsers[p].isTypeParser))
+                    {
+                        int backupI = i;
+                        var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code, vHolder);
+                        if (parserRes.Success) return parserRes.Function;
+                        else i = backupI;
+                    }
+                }
             }
 
             ParserHelper.SkipSpace(ref i, code);

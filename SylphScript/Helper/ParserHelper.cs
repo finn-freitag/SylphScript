@@ -49,16 +49,19 @@ namespace SylphScript.Helper
             return str.ToString();
         }
 
-        public static int GetNumber(ref int i, string code)
+        public static bool GetNumber(ref int i, string code, out int number)
         {
             int num = 0;
+            bool success = false;
             while (i < code.Length && char.IsDigit(code[i]))
             {
-                i++;
                 num *= 10;
-                num += Convert.ToInt32(code[i]);
+                num += Convert.ToInt32("" + code[i]);
+                i++;
+                success = true;
             }
-            return num;
+            number = num;
+            return success;
         }
 
         public static void SkipSpace(ref int i, string code) // Skip ' ', '\t', '\r', '\n', comments

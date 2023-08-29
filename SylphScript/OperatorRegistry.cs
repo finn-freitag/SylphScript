@@ -18,14 +18,19 @@ namespace SylphScript
             new SubtractTwoIntegers(),
         };
 
-        public static IOperator GetOperator(ReferenceName type1, ReferenceName type2)
+        public static bool OperatorExists(string Operator)
         {
+            return GetOperator(Operator) != null;
+        }
+
+        public static IOperator[] GetOperator(string Operator)
+        {
+            List<IOperator> ops = new List<IOperator>();
             for(int i = 0; i < Operators.Count; i++)
             {
-                if (Operators[i].Type1 == type1 && Operators[i].Type2 == type2) return Operators[i];
+                if (Operators[i].OperatorName == Operator) ops.Add(Operators[i]);
             }
-
-            return null;
+            return ops.ToArray();
         }
     }
 }

@@ -11,9 +11,10 @@ namespace SylphScript
     {
         public static List<IAdditionalParser> Parsers = new List<IAdditionalParser>()
         {
+            new OperatorParser(), // needs to be first
+            new CharParser(),
             new NullParser(),
             new NumberParser(),
-            new CharParser(),
             new StringParser(),
             new VariableAssignmentParser(),
             new VariableGetterParser(),

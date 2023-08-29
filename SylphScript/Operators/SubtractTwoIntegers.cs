@@ -10,15 +10,19 @@ namespace SylphScript.Operators
     {
         public string OperatorName => "-";
 
+        public bool IsOneParameterOperator => false;
+
+        public OperatorGrade Grade => OperatorGrade.Third;
+
         public ReferenceName Type1 => "int";
 
         public ReferenceName Type2 => "int";
 
         public ReferenceName Result => "int";
 
-        public ObjectHolder Process(ObjectHolder obj1, ObjectHolder obj2)
+        public ObjectHolder Process(IFunction obj1, IFunction obj2, VariableHolder vHolder)
         {
-            return new ObjectHolder((int)obj1.Object - (int)obj2.Object, "int");
+            return new ObjectHolder((int)obj1.GetResult(vHolder).Object - (int)obj2.GetResult(vHolder).Object, "int");
         }
     }
 }

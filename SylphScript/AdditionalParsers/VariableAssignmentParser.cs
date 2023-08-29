@@ -10,6 +10,8 @@ namespace SylphScript.AdditionalParsers
 {
     public class VariableAssignmentParser : IAdditionalParser
     {
+        public bool isTypeParser => false;
+
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             string firstID = ParserHelper.GetIdentifier(ref index, code);

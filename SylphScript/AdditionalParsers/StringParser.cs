@@ -9,6 +9,8 @@ namespace SylphScript.AdditionalParsers
 {
     public class StringParser : IAdditionalParser
     {
+        public bool isTypeParser => true;
+
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             try

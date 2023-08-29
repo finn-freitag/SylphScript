@@ -10,6 +10,8 @@ namespace SylphScript.AdditionalParsers
 {
     public class NullParser : IAdditionalParser
     {
+        public bool isTypeParser => true;
+
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
             if (ParserHelper.CheckPos(index, code, "null"))

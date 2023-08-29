@@ -8,6 +8,7 @@ namespace SylphScript
 {
     public interface IAdditionalParser
     {
+        bool isTypeParser { get; }
         (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder);
     }
 }

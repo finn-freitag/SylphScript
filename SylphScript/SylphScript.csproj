@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalParsers\OperatorParser.cs" />
     <Compile Include="AdditionalParsers\VariableAssignmentParser.cs" />
     <Compile Include="AdditionalParsers\VariableGetterParser.cs" />
     <Compile Include="ArgResPermutation.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="IAdditionalParser.cs" />
     <Compile Include="IType.cs" />
     <Compile Include="ObjectHolder.cs" />
+    <Compile Include="OperatorGrade.cs" />
     <Compile Include="OperatorRegistry.cs" />
     <Compile Include="Operators\AddTwoIntegers.cs" />
     <Compile Include="Operators\ConcatCharAndChar.cs" />
