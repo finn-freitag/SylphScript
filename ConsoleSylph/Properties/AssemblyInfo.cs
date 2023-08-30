@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ConsoleSylph")]
-[assembly: AssemblyDescription("Simple C#-like programming language.")]
+[assembly: AssemblyDescription("Simple programming language.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Finn Freitag")]
 [assembly: AssemblyProduct("ConsoleSylph")]

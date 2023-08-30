@@ -1,2 +1,2 @@
 # SylphScript
- Simple C#-like programming language.
+ Simple programming language.
