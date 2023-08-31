@@ -11,11 +11,15 @@ namespace SylphScript
     {
         public static void Execute(IFunction function)
         {
+            Execute(function, new VariableHolder());
+        }
+
+        public static void Execute(IFunction function, VariableHolder vHolder)
+        {
             IFunction func = function;
-            VariableHolder holder = new VariableHolder();
             while (func != null)
             {
-                func.GetResult(holder);
+                func.GetResult(vHolder);
                 func = func.NextFunction;
             }
         }

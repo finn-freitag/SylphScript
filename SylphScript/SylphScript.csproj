@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalParsers\BoolParser.cs" />
+    <Compile Include="AdditionalParsers\IfParser.cs" />
     <Compile Include="AdditionalParsers\OperatorParser.cs" />
     <Compile Include="AdditionalParsers\VariableAssignmentParser.cs" />
     <Compile Include="AdditionalParsers\VariableGetterParser.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Functions\_Assignment.cs" />
     <Compile Include="Functions\_constFunction.cs" />
     <Compile Include="Functions\_getVariable.cs" />
+    <Compile Include="Functions\_If.cs" />
     <Compile Include="Functions\_implConvertFunction.cs" />
     <Compile Include="Functions\_operator.cs" />
     <Compile Include="Functions\_Reassignment.cs" />
@@ -78,7 +80,11 @@
     <Compile Include="Operators\AddTwoIntegers.cs" />
     <Compile Include="Operators\ConcatCharAndChar.cs" />
     <Compile Include="Operators\ConcatCharAndString.cs" />
+    <Compile Include="Operators\ConcatDoubleAndString.cs" />
+    <Compile Include="Operators\ConcatIntegerAndString.cs" />
     <Compile Include="Operators\ConcatStringAndChar.cs" />
+    <Compile Include="Operators\ConcatStringAndDouble.cs" />
+    <Compile Include="Operators\ConcatStringAndInteger.cs" />
     <Compile Include="Operators\ConcatStringAndString.cs" />
     <Compile Include="Operators\DivideTwoDoubles.cs" />
     <Compile Include="Operators\DivideTwoIntegers.cs" />

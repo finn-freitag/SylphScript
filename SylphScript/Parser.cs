@@ -21,7 +21,7 @@ namespace SylphScript
             IFunction lastFunction = Parse(ref i, code, vHolder);
             IFunction first = lastFunction;
             ParserHelper.SkipSpace(ref i, code);
-            while (code.Length - i > 2)
+            while (code.Length - i > 2 && code[i] != '}')
             {
                 IFunction newFunction = Parse(ref i, code, vHolder);
                 //if (newFunction is _getVariable) throw new InvalidOperationException("Variable is not a command!");

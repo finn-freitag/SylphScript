@@ -25,6 +25,10 @@ namespace SylphScript
             new ConcatCharAndString(),
             new ConcatStringAndChar(),
             new ConcatStringAndString(),
+            new ConcatIntegerAndString(),
+            new ConcatStringAndInteger(),
+            new ConcatDoubleAndString(),
+            new ConcatStringAndDouble(),
         };
 
         public static bool OperatorExists(string Operator)

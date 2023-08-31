@@ -40,7 +40,7 @@ namespace SylphScript
 
         public bool VariableExist(string name)
         {
-            return Variables.ContainsKey(name);
+            return Variables.ContainsKey(name) || (Parent != null && Parent.VariableExist(name));
         }
 
         public VariableHolder GetSubHolder(string AdditionalPositionName)

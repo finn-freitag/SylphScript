@@ -208,6 +208,7 @@ namespace SylphScript.AdditionalParsers
                 }
                 else
                 {
+                    index = backupIndex;
                     VariableGetterParser getter = new VariableGetterParser();
                     var res = getter.Parse(ref index, code, vHolder);
                     if (res.Success) return (res.Function, true);
