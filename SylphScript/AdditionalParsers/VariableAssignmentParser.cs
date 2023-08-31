@@ -25,8 +25,8 @@ namespace SylphScript.AdditionalParsers
             IFunction value = Parser.Parse(ref index, code, vHolder);
             if(secondID != "")
             {
-                if (!TypeRegistry.ContainsType(firstID)) return (null, false);
-                if (value.AssignedReturnType != firstID)
+                if (!TypeRegistry.ContainsType(firstID) && firstID != "var") return (null, false);
+                if (value.AssignedReturnType != firstID && firstID != "var")
                 {
                     IConversion conversion = ConversionRegistry.GetImplicitConversion(value.AssignedReturnType, firstID);
                     if (conversion == null) return (null, false);
@@ -35,7 +35,7 @@ namespace SylphScript.AdditionalParsers
                     vHolder.AddVariable(secondID, new ObjectHolder(null, firstID));
                     return (new _Assignment(secondID, convert), true);
                 }
-                vHolder.AddVariable(secondID, new ObjectHolder(null, firstID));
+                vHolder.AddVariable(secondID, new ObjectHolder(null, value.AssignedReturnType));
                 return (new _Assignment(secondID, value), true);
             }
             else
