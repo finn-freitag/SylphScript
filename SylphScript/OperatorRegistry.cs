@@ -11,11 +11,20 @@ namespace SylphScript
     {
         public static List<IOperator> Operators = new List<IOperator>()
         {
+            new AddTwoDoubles(),
             new AddTwoIntegers(),
+            new DivideTwoDoubles(),
             new DivideTwoIntegers(),
+            new ModuloTwoDoubles(),
             new ModuloTwoIntegers(),
+            new MultiplicateTwoDoubles(),
             new MultiplicateTwoIntegers(),
+            new SubtractTwoDoubles(),
             new SubtractTwoIntegers(),
+            new ConcatCharAndChar(),
+            new ConcatCharAndString(),
+            new ConcatStringAndChar(),
+            new ConcatStringAndString(),
         };
 
         public static bool OperatorExists(string Operator)
@@ -29,6 +38,16 @@ namespace SylphScript
             for(int i = 0; i < Operators.Count; i++)
             {
                 if (Operators[i].OperatorName == Operator) ops.Add(Operators[i]);
+            }
+            return ops.ToArray();
+        }
+
+        public static string[] GetOperatorStrings()
+        {
+            List<string> ops = new List<string>();
+            for (int i = 0; i < Operators.Count; i++)
+            {
+                ops.Add(Operators[i].OperatorName);
             }
             return ops.ToArray();
         }

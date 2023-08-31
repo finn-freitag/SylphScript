@@ -14,7 +14,9 @@ namespace SylphScript
             new ByteToChar(),
             new ByteToInteger(),
             new CharToByte(),
+            new DoubleToInteger(),
             new IntegerToByte(),
+            new IntegerToDouble(),
         };
 
         public static bool ConversionExists(ReferenceName origin, ReferenceName target)

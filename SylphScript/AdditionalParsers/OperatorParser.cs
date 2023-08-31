@@ -83,7 +83,21 @@ namespace SylphScript.AdditionalParsers
                                     {
                                         IConversion con1 = ConversionRegistry.GetImplicitConversion(func1.AssignedReturnType, op[o].Type1);
                                         IConversion con2 = ConversionRegistry.GetImplicitConversion(func2.AssignedReturnType, op[o].Type2);
-                                        if(con1 != null && con2 != null)
+                                        if (op[o].Type1 == func1.AssignedReturnType && con2 != null)
+                                        {
+                                            _implConvertFunction conFunc2 = new _implConvertFunction(con2);
+                                            conFunc2.AssignedParameters = new IFunction[] { func2 };
+                                            tokens[i + 1] = conFunc2;
+                                            tokens[i] = op[o];
+                                        }
+                                        else if (op[o].Type2 == func2.AssignedReturnType && con1 != null)
+                                        {
+                                            _implConvertFunction conFunc1 = new _implConvertFunction(con1);
+                                            conFunc1.AssignedParameters = new IFunction[] { func1 };
+                                            tokens[i - 1] = conFunc1;
+                                            tokens[i] = op[o];
+                                        }
+                                        else if(con1 != null && con2 != null)
                                         {
                                             _implConvertFunction conFunc1 = new _implConvertFunction(con1);
                                             conFunc1.AssignedParameters = new IFunction[] { func1 };
@@ -91,6 +105,7 @@ namespace SylphScript.AdditionalParsers
                                             _implConvertFunction conFunc2 = new _implConvertFunction(con2);
                                             conFunc2.AssignedParameters = new IFunction[] { func2 };
                                             tokens[i + 1] = conFunc2;
+                                            tokens[i] = op[o];
                                         }
                                     }
                                 }
@@ -148,6 +163,18 @@ namespace SylphScript.AdditionalParsers
             if (tokens[0] is IOperator) return (null, false);
             return ((IFunction)tokens[0], true);
         }
+
+        //private (object Token, bool Success) ParseNextToken(ref int index, string code, VariableHolder vHolder)
+        //{
+        //    string[] ops = OperatorRegistry.GetOperatorStrings();
+        //    for (int i = 0; i < ops.Length; i++)
+        //    {
+        //        if (ParserHelper.CheckPos(index, code, ops[i]))
+        //        {
+
+        //        }
+        //    }
+        //}
 
         private (object Token, bool Success) ParseNextToken(ref int index, string code, VariableHolder vHolder)
         {

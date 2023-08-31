@@ -40,7 +40,7 @@ namespace SylphScript.Functions
             }
             if (AssignedParameters[0].AssignedReturnType == "double")
             {
-                Console.WriteLine(Convert.ToString((double)AssignedParameters[0].GetResult(variableHolder).Object));
+                Console.WriteLine(Convert.ToString((double)AssignedParameters[0].GetResult(variableHolder).Object).Replace(',', '.'));
                 return ObjectHolder.Null;
             }
             throw new InvalidOperationException("Invalid parameters!");

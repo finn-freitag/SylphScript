@@ -35,9 +35,7 @@ namespace SylphScript.AdditionalParsers
             }
             else
             {
-                double d = num1;
-                d += num2 * (0.1 * Convert.ToString(num2).Length);
-                return (new _constFunction(new ObjectHolder(d, "double")), true);
+                return (new _constFunction(new ObjectHolder(num1 + num2 * multiplier * (0.1 * Convert.ToString(num2).Length), "double")), true);
             }
             //try
             //{
