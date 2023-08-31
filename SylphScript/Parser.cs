@@ -13,15 +13,21 @@ namespace SylphScript
         public static IFunction Parse(string code)
         {
             int i = 0;
-            VariableHolder vHolder = new VariableHolder();
+            return ParseMultiple(ref i, code, new VariableHolder());
+        }
+
+        public static IFunction ParseMultiple(ref int i, string code, VariableHolder vHolder)
+        {
             IFunction lastFunction = Parse(ref i, code, vHolder);
             IFunction first = lastFunction;
+            ParserHelper.SkipSpace(ref i, code);
             while (code.Length - i > 2)
             {
                 IFunction newFunction = Parse(ref i, code, vHolder);
-                if (newFunction is _getVariable) throw new InvalidOperationException("Variable is not a command!");
+                //if (newFunction is _getVariable) throw new InvalidOperationException("Variable is not a command!");
                 lastFunction.NextFunction = newFunction;
                 lastFunction = newFunction;
+                ParserHelper.SkipSpace(ref i, code);
             }
             return first;
         }
