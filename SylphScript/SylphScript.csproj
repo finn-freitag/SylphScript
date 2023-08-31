@@ -54,6 +54,7 @@
     <Compile Include="Conversions\IntegerToDouble.cs" />
     <Compile Include="Executor.cs" />
     <Compile Include="FunctionsRegistry.cs" />
+    <Compile Include="Functions\color.cs" />
     <Compile Include="Functions\print.cs" />
     <Compile Include="Functions\readKey.cs" />
     <Compile Include="Functions\readLine.cs" />

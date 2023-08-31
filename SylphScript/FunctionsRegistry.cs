@@ -12,6 +12,7 @@ namespace SylphScript
     {
         public static List<IFunction> Functions = new List<IFunction>()
         {
+            new color(),
             new print(),
             new readLine(),
             new readKey(),
