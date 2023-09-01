@@ -12,7 +12,7 @@ namespace SylphScript.Operators
 
         public bool IsOneParameterOperator => false;
 
-        public OperatorGrade Grade => OperatorGrade.Second;
+        public OperatorGrade Grade => OperatorGrade.First;
 
         public ReferenceName Type1 => "double";
 

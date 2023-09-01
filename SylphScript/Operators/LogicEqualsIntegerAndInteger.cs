@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace SylphScript.Operators
 {
-    public class ConcatIntegerAndString : IOperator
+    public class LogicEqualsIntegerAndInteger : IOperator
     {
-        public string OperatorName => "+";
+        public string OperatorName => "==";
 
         public bool IsOneParameterOperator => false;
 
-        public OperatorGrade Grade => OperatorGrade.Second;
+        public OperatorGrade Grade => OperatorGrade.Third;
 
         public ReferenceName Type1 => "int";
 
-        public ReferenceName Type2 => "string";
+        public ReferenceName Type2 => "int";
 
-        public ReferenceName Result => "string";
+        public ReferenceName Result => "bool";
 
         public ObjectHolder Process(IFunction obj1, IFunction obj2, VariableHolder vHolder)
         {
-            return new ObjectHolder((int)obj1.GetResult(vHolder).Object + (string)obj2.GetResult(vHolder).Object, "string");
+            return new ObjectHolder((double)obj1.GetResult(vHolder).Object == (double)obj2.GetResult(vHolder).Object, "bool");
         }
     }
 }

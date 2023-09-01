@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace SylphScript.Operators
 {
-    public class AddTwoDoubles : IOperator
+    public class LogicGreaterDoubleAndDouble : IOperator
     {
-        public string OperatorName => "+";
+        public string OperatorName => ">";
 
         public bool IsOneParameterOperator => false;
 
-        public OperatorGrade Grade => OperatorGrade.Second;
+        public OperatorGrade Grade => OperatorGrade.Third;
 
         public ReferenceName Type1 => "double";
 
         public ReferenceName Type2 => "double";
 
-        public ReferenceName Result => "double";
+        public ReferenceName Result => "bool";
 
         public ObjectHolder Process(IFunction obj1, IFunction obj2, VariableHolder vHolder)
         {
-            return new ObjectHolder((double)obj1.GetResult(vHolder).Object + (double)obj2.GetResult(vHolder).Object, "double");
+            return new ObjectHolder((double)obj1.GetResult(vHolder).Object > (double)obj2.GetResult(vHolder).Object, "bool");
         }
     }
 }
