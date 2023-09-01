@@ -59,11 +59,12 @@ namespace SylphScript.AdditionalParsers
                                     else if (r == 1)
                                     {
                                         IConversion con = ConversionRegistry.GetImplicitConversion(func.AssignedReturnType, op[o].Type1);
-                                        if(con != null)
+                                        if(con != null && tokens[i] is IOperator[])
                                         {
                                             _implConvertFunction conFunc = new _implConvertFunction(con);
                                             conFunc.AssignedParameters = new IFunction[] { func };
                                             tokens[i + 1] = conFunc;
+                                            tokens[i] = op[o];
                                         }
                                     }
                                 }
@@ -79,7 +80,7 @@ namespace SylphScript.AdditionalParsers
                                     {
                                         tokens[i] = op[o];
                                     }
-                                    else if (r == 1)
+                                    else if (r == 1 && tokens[i] is IOperator[])
                                     {
                                         IConversion con1 = ConversionRegistry.GetImplicitConversion(func1.AssignedReturnType, op[o].Type1);
                                         IConversion con2 = ConversionRegistry.GetImplicitConversion(func2.AssignedReturnType, op[o].Type2);
