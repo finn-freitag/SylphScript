@@ -191,7 +191,7 @@ namespace SylphScript.AdditionalParsers
             }
 
             int backupIndex = index;
-            string id = ParserHelper.GetIdentifier(ref index, code);
+            /*string id = ParserHelper.GetIdentifier(ref index, code);
             if(id != "")
             {
                 if (code[index] == '(')
@@ -214,13 +214,17 @@ namespace SylphScript.AdditionalParsers
                     var res = getter.Parse(ref index, code, vHolder);
                     if (res.Success) return (res.Function, true);
                 }
-            }
+            }*/
             try
             {
                 IFunction f = Parser.Parse(ref index, code, vHolder, true, false);
                 return (f, true);
             }
-            catch { }
+            catch
+            {
+                index = backupIndex;
+            }
+            string id = "";
             while (true)
             {
                 if (ParserHelper.SkipDoubleSlashComment(ref index, code) || ParserHelper.SkipSlashAsteriskComment(ref index, code) || code[index] == ' ' || code[index] == ')')

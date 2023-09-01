@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalParsers\BoolParser.cs" />
+    <Compile Include="AdditionalParsers\CRLFParser.cs" />
     <Compile Include="AdditionalParsers\ForLoop3ParamsParser.cs" />
     <Compile Include="AdditionalParsers\IfParser.cs" />
     <Compile Include="AdditionalParsers\OperatorParser.cs" />

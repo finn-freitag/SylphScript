@@ -14,6 +14,7 @@ namespace SylphScript
             new OperatorParser(), // needs to be first
             new BoolParser(),
             new CharParser(),
+            new CRLFParser(),
             new ForLoop3ParamsParser(),
             new IfParser(),
             new NullParser(),

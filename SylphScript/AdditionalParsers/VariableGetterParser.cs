@@ -10,7 +10,7 @@ namespace SylphScript.AdditionalParsers
 {
     public class VariableGetterParser : IAdditionalParser
     {
-        public bool isTypeParser => false;
+        public bool isTypeParser => true;
 
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
