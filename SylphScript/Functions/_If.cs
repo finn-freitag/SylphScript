@@ -12,7 +12,7 @@ namespace SylphScript.Functions
         public ReferenceName AssignedReturnType { get { return "null"; } set { } }
         public IFunction[] AssignedParameters { get; set; }
 
-        public ReferenceName FullName => "if";
+        public ReferenceName FullName => "_if";
 
         public ArgResPermutation Parameters => ArgResPermutation.Build()
             .Add("null", "bool", "object")
