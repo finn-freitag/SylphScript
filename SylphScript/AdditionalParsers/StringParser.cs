@@ -30,6 +30,7 @@ namespace SylphScript.AdditionalParsers
                         if (code[index] == 'r') sb.Append("\r");
                         if (code[index] == 'n') sb.Append("\n");
                         if (code[index] == '"') sb.Append("\"");
+                        escaped = false;
                     }
                     else
                     {

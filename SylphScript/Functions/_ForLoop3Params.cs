@@ -32,7 +32,7 @@ namespace SylphScript.Functions
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
             VariableHolder subHolder = variableHolder.GetSubHolder("for");
-            if (AssignedParameters[0] != null) AssignedParameters[1].GetResult(subHolder);
+            if (AssignedParameters[0] != null) AssignedParameters[0].GetResult(subHolder);
             while(getConditionResult(subHolder))
             {
                 AssignedParameters[3].GetResult(subHolder);

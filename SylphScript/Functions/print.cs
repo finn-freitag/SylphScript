@@ -30,17 +30,17 @@ namespace SylphScript.Functions
             if (AssignedParameters.Length != 1) throw new InvalidOperationException("Invalid parameters!");
             if (AssignedParameters[0].AssignedReturnType == "string")
             {
-                Console.WriteLine((string)AssignedParameters[0].GetResult(variableHolder).Object);
+                Console.Write((string)AssignedParameters[0].GetResult(variableHolder).Object);
                 return ObjectHolder.Null;
             }
             if (AssignedParameters[0].AssignedReturnType == "int")
             {
-                Console.WriteLine(Convert.ToString((int)AssignedParameters[0].GetResult(variableHolder).Object));
+                Console.Write(Convert.ToString((int)AssignedParameters[0].GetResult(variableHolder).Object));
                 return ObjectHolder.Null;
             }
             if (AssignedParameters[0].AssignedReturnType == "double")
             {
-                Console.WriteLine(Convert.ToString((double)AssignedParameters[0].GetResult(variableHolder).Object).Replace(',', '.'));
+                Console.Write(Convert.ToString((double)AssignedParameters[0].GetResult(variableHolder).Object).Replace(',', '.'));
                 return ObjectHolder.Null;
             }
             throw new InvalidOperationException("Invalid parameters!");

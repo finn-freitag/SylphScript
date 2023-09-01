@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalParsers\BoolParser.cs" />
+    <Compile Include="AdditionalParsers\ForLoop3ParamsParser.cs" />
     <Compile Include="AdditionalParsers\IfParser.cs" />
     <Compile Include="AdditionalParsers\OperatorParser.cs" />
     <Compile Include="AdditionalParsers\VariableAssignmentParser.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Functions\readLine.cs" />
     <Compile Include="Functions\_Assignment.cs" />
     <Compile Include="Functions\_constFunction.cs" />
+    <Compile Include="Functions\_ForLoop3Params.cs" />
     <Compile Include="Functions\_getVariable.cs" />
     <Compile Include="Functions\_If.cs" />
     <Compile Include="Functions\_implConvertFunction.cs" />
@@ -88,6 +90,37 @@
     <Compile Include="Operators\ConcatStringAndString.cs" />
     <Compile Include="Operators\DivideTwoDoubles.cs" />
     <Compile Include="Operators\DivideTwoIntegers.cs" />
+    <Compile Include="Operators\LogicAndBoolAndBool.cs" />
+    <Compile Include="Operators\LogicAndByteAndByte.cs" />
+    <Compile Include="Operators\LogicAndCharAndChar.cs" />
+    <Compile Include="Operators\LogicAndIntegerAndInteger.cs" />
+    <Compile Include="Operators\LogicEqualsBoolAndBool.cs" />
+    <Compile Include="Operators\LogicEqualsByteAndByte.cs" />
+    <Compile Include="Operators\LogicEqualsCharAndChar.cs" />
+    <Compile Include="Operators\LogicEqualsDoubleAndDouble.cs" />
+    <Compile Include="Operators\LogicEqualsIntegerAndInteger.cs" />
+    <Compile Include="Operators\LogicEqualsObjectAndObject.cs" />
+    <Compile Include="Operators\LogicEqualsStringAndString.cs" />
+    <Compile Include="Operators\LogicGreaterDoubleAndDouble.cs" />
+    <Compile Include="Operators\LogicGreaterIntegerAndInteger.cs" />
+    <Compile Include="Operators\LogicNot.cs" />
+    <Compile Include="Operators\LogicNotEqualsBoolAndBool.cs" />
+    <Compile Include="Operators\LogicNotEqualsByteAndByte.cs" />
+    <Compile Include="Operators\LogicNotEqualsCharAndChar.cs" />
+    <Compile Include="Operators\LogicNotEqualsDoubleAndDouble.cs" />
+    <Compile Include="Operators\LogicNotEqualsIntegerAndInteger.cs" />
+    <Compile Include="Operators\LogicNotEqualsObjectAndObject.cs" />
+    <Compile Include="Operators\LogicNotEqualsStringAndString.cs" />
+    <Compile Include="Operators\LogicOrBoolAndBool.cs" />
+    <Compile Include="Operators\LogicOrByteAndByte.cs" />
+    <Compile Include="Operators\LogicOrCharAndChar.cs" />
+    <Compile Include="Operators\LogicOrIntegerAndInteger.cs" />
+    <Compile Include="Operators\LogicSmallerDoubleAndDouble.cs" />
+    <Compile Include="Operators\LogicSmallerIntegerAndInteger.cs" />
+    <Compile Include="Operators\LogicXorBoolAndBool.cs" />
+    <Compile Include="Operators\LogicXorByteAndByte.cs" />
+    <Compile Include="Operators\LogicXorCharAndChar.cs" />
+    <Compile Include="Operators\LogicXorIntegerAndInteger.cs" />
     <Compile Include="Operators\ModuloTwoDoubles.cs" />
     <Compile Include="Operators\ModuloTwoIntegers.cs" />
     <Compile Include="Operators\MultiplicateTwoDoubles.cs" />
