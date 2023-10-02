@@ -15,6 +15,7 @@ namespace SylphScript
             new BoolParser(),
             new CharParser(),
             new CRLFParser(),
+            new DoWhileParser(),
             new ForLoop3ParamsParser(),
             new IfParser(),
             new NullParser(),
@@ -22,6 +23,7 @@ namespace SylphScript
             new StringParser(),
             new VariableAssignmentParser(),
             new VariableGetterParser(),
+            new WhileParser(),
         };
     }
 }

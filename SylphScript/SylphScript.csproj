@@ -43,11 +43,13 @@
   <ItemGroup>
     <Compile Include="AdditionalParsers\BoolParser.cs" />
     <Compile Include="AdditionalParsers\CRLFParser.cs" />
+    <Compile Include="AdditionalParsers\DoWhileParser.cs" />
     <Compile Include="AdditionalParsers\ForLoop3ParamsParser.cs" />
     <Compile Include="AdditionalParsers\IfParser.cs" />
     <Compile Include="AdditionalParsers\OperatorParser.cs" />
     <Compile Include="AdditionalParsers\VariableAssignmentParser.cs" />
     <Compile Include="AdditionalParsers\VariableGetterParser.cs" />
+    <Compile Include="AdditionalParsers\WhileParser.cs" />
     <Compile Include="ArgResPermutation.cs" />
     <Compile Include="ConversionRegistry.cs" />
     <Compile Include="Conversions\ByteToChar.cs" />
@@ -64,12 +66,14 @@
     <Compile Include="Functions\readLine.cs" />
     <Compile Include="Functions\_Assignment.cs" />
     <Compile Include="Functions\_constFunction.cs" />
+    <Compile Include="Functions\_DoWhile.cs" />
     <Compile Include="Functions\_ForLoop3Params.cs" />
     <Compile Include="Functions\_getVariable.cs" />
     <Compile Include="Functions\_If.cs" />
     <Compile Include="Functions\_implConvertFunction.cs" />
     <Compile Include="Functions\_operator.cs" />
     <Compile Include="Functions\_Reassignment.cs" />
+    <Compile Include="Functions\_While.cs" />
     <Compile Include="Helper\ParserHelper.cs" />
     <Compile Include="IConversion.cs" />
     <Compile Include="IFunction.cs" />
