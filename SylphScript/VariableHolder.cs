@@ -26,7 +26,12 @@ namespace SylphScript
 
         public void SetVariable(string name, ObjectHolder value)
         {
-            if (!Variables.ContainsKey(name)) throw new InvalidOperationException("This variable doesn't exist!");
+            if (!Variables.ContainsKey(name))
+            {
+                if (Parent == null) throw new InvalidOperationException("This variable doesn't exist!");
+                Parent.SetVariable(name, value);
+                return;
+            }
             if (Variables[name].TypeFullName != value.TypeFullName) throw new InvalidOperationException("Variable type doesn't match the type of assignment!");
             Variables[name].Object = value.Object;
         }
