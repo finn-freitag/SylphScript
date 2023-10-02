@@ -58,7 +58,7 @@ namespace SylphScript.AdditionalParsers
                 ParserHelper.SkipSpace(ref index, code);
                 if (index >= code.Length || code[index] != '{') return (null, false);
                 index++;
-                IFunction fulfilled = Parser.Parse(ref index, code, subHolder);
+                IFunction fulfilled = Parser.ParseMultiple(ref index, code, subHolder);
                 ParserHelper.SkipSpace(ref index, code);
                 if (index >= code.Length || code[index] != '}') return (null, false);
                 index++;

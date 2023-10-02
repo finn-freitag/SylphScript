@@ -35,7 +35,7 @@ namespace SylphScript.Functions
             if (AssignedParameters[0] != null) AssignedParameters[0].GetResult(subHolder);
             while(getConditionResult(subHolder))
             {
-                AssignedParameters[3].GetResult(subHolder);
+                Executor.Execute(AssignedParameters[3], subHolder);
                 if (AssignedParameters[2] != null) AssignedParameters[2].GetResult(subHolder);
             }
             return ObjectHolder.Null;

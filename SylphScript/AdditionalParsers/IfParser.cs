@@ -35,7 +35,7 @@ namespace SylphScript.AdditionalParsers
                 ParserHelper.SkipSpace(ref index, code);
                 if (code[index] != '{') return (null, false);
                 index++;
-                IFunction fulfilled = Parser.Parse(ref index, code, vHolder.GetSubHolder("if"));
+                IFunction fulfilled = Parser.ParseMultiple(ref index, code, vHolder.GetSubHolder("if"));
                 ParserHelper.SkipSpace(ref index, code);
                 if (index >= code.Length || code[index] != '}') return (null, false);
                 index++;
@@ -47,7 +47,7 @@ namespace SylphScript.AdditionalParsers
                     ParserHelper.SkipSpace(ref index, code);
                     if (code[index] != '{') return (null, false);
                     index++;
-                    Else = Parser.Parse(ref index, code, vHolder.GetSubHolder("else"));
+                    Else = Parser.ParseMultiple(ref index, code, vHolder.GetSubHolder("else"));
                     ParserHelper.SkipSpace(ref index, code);
                     if (index >= code.Length || code[index] != '}') return (null, false);
                     index++;
