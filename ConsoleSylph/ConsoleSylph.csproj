@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\beep.cs" />
     <Compile Include="Functions\color.cs" />
     <Compile Include="Functions\print.cs" />
     <Compile Include="Functions\readKey.cs" />
     <Compile Include="Functions\readLine.cs" />
+    <Compile Include="Functions\setTitle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
