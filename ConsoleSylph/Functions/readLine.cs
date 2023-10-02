@@ -3,28 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SylphScript;
 
-namespace SylphScript.Functions
+namespace ConsoleSylph.Functions
 {
-    public class readKey : IFunction
+    public class readLine : IFunction
     {
         public IFunction NextFunction { get; set; }
         public ReferenceName AssignedReturnType { get; set; }
         public IFunction[] AssignedParameters { get; set; }
-
-        public ReferenceName FullName => "readKey";
-
-        public ArgResPermutation Parameters => ArgResPermutation.Build().Add("null");
+        public ReferenceName FullName => "readLine";
+        public ArgResPermutation Parameters { get
+            {
+                return ArgResPermutation.Build().Add("string");
+            } }
 
         public IFunction GetNewInstance()
         {
-            return new readKey();
+            return new readLine();
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            Console.ReadKey();
-            return ObjectHolder.Null;
+            string str = Console.ReadLine();
+            return new ObjectHolder(str, "string");
         }
     }
 }

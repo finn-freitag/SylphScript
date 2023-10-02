@@ -1,4 +1,5 @@
-﻿using SylphScript;
+﻿using ConsoleSylph.Functions;
+using SylphScript;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,11 @@ namespace ConsoleSylph
             {
                 if (File.Exists(args[0]))
                 {
+                    FunctionsRegistry.Functions.Add(new color());
+                    FunctionsRegistry.Functions.Add(new print());
+                    FunctionsRegistry.Functions.Add(new readKey());
+                    FunctionsRegistry.Functions.Add(new readLine());
+
                     Executor.Execute(Parser.Parse(File.ReadAllText(args[0])));
                 }
             }
