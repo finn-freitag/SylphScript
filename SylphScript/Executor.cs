@@ -20,7 +20,8 @@ namespace SylphScript
             while (func != null)
             {
                 func.GetResult(vHolder);
-                func = func.NextFunction;
+                if (func is @return) func = null;
+                else func = func.NextFunction;
             }
         }
     }

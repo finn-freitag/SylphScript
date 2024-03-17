@@ -9,9 +9,12 @@ namespace SylphScript
 {
     public class VariableHolder
     {
+        public delegate void ReturnCallback(ObjectHolder value);
+
         public VariableHolder Parent = null;
         public ReferenceName PositionFullName = "";
         public Dictionary<string, ObjectHolder> Variables = new Dictionary<string, ObjectHolder>();
+        public ReturnCallback ReturnCallbackFunc = null;
 
         public VariableHolder()
         {
@@ -20,7 +23,7 @@ namespace SylphScript
 
         public void AddVariable(string name, ObjectHolder value)
         {
-            if (Variables.ContainsKey(name)) throw new InvalidOperationException("This variable still exists!");
+            if (Variables.ContainsKey(name)) throw new InvalidOperationException("This variable does already exists!");
             Variables.Add(name, value);
         }
 
@@ -52,7 +55,7 @@ namespace SylphScript
         {
             VariableHolder holder = new VariableHolder();
             holder.Parent = this;
-            holder.PositionFullName += "." + AdditionalPositionName;
+            holder.PositionFullName = this.PositionFullName + "." + AdditionalPositionName;
             return holder;
         }
     }
