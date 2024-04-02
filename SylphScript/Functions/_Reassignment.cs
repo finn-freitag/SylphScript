@@ -22,6 +22,8 @@ namespace SylphScript.Functions
             }
         }
 
+        public ReferenceName ReferenceObject { get; set; }
+
         string variableName = "";
         IFunction value = null;
 

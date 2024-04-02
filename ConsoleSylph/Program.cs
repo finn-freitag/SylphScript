@@ -23,6 +23,9 @@ namespace ConsoleSylph
                     FunctionsRegistry.Functions.Add(new readKey());
                     FunctionsRegistry.Functions.Add(new readLine());
                     FunctionsRegistry.Functions.Add(new setTitle());
+                    FunctionsRegistry.Functions.Add(new Types.ColorFunctions.Color());
+
+                    TypeRegistry.Types.Add(new Types.Color());
 
                     Executor.Execute(Parser.Parse(File.ReadAllText(args[0])));
                 }

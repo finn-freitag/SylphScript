@@ -19,6 +19,8 @@ namespace SylphScript.Functions
             .Add("null", "null", "object")
             .Add("null", "bool", "null");
 
+        public ReferenceName ReferenceObject { get; set; }
+
         public IFunction GetNewInstance()
         {
             return new _While();

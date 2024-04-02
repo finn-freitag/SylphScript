@@ -16,6 +16,8 @@ namespace SylphScript.Functions
 
         public ArgResPermutation Parameters { get; private set; } = ArgResPermutation.Build().Add("null");
 
+        public ReferenceName ReferenceObject { get; set; }
+
         private IFunction code = null;
 
         private string[] parameterNames;

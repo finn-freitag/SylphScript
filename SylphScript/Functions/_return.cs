@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SylphScript.Functions
 {
-    public class @return : IFunction
+    public class _return : IFunction
     {
         public IFunction NextFunction { get; set; }
         public ReferenceName AssignedReturnType { get; set; }
@@ -18,9 +18,11 @@ namespace SylphScript.Functions
             .Add("null", "object")
             .Add("null");
 
+        public ReferenceName ReferenceObject { get; set; }
+
         public IFunction GetNewInstance()
         {
-            return new @return();
+            return new _return();
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)

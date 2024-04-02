@@ -16,7 +16,10 @@ namespace ConsoleSylph.Functions
         public ArgResPermutation Parameters { get
             {
                 return ArgResPermutation.Build().Add("string");
-            } }
+            }
+        }
+
+        public ReferenceName ReferenceObject { get; set; }
 
         public IFunction GetNewInstance()
         {

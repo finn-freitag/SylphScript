@@ -73,9 +73,10 @@
     <Compile Include="Functions\_implConvertFunction.cs" />
     <Compile Include="Functions\_operator.cs" />
     <Compile Include="Functions\_Reassignment.cs" />
-    <Compile Include="Functions\return.cs" />
+    <Compile Include="Functions\_return.cs" />
     <Compile Include="Functions\_While.cs" />
     <Compile Include="Helper\ParserHelper.cs" />
+    <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IConversion.cs" />
     <Compile Include="IFunction.cs" />
     <Compile Include="IOperator.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="Types\double.cs" />
     <Compile Include="Types\int.cs" />
     <Compile Include="Types\string.cs" />
+    <Compile Include="Types\stringFunctions\CharAt.cs" />
+    <Compile Include="Types\stringFunctions\Length.cs" />
     <Compile Include="VariableHolder.cs" />
   </ItemGroup>
   <ItemGroup />

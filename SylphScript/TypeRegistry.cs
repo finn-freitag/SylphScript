@@ -27,5 +27,14 @@ namespace SylphScript
             }
             return false;
         }
+
+        public static IType FindType(ReferenceName type)
+        {
+            for(int i = 0; i < Types.Count; i++)
+            {
+                if (Types[i].Name == type) return Types[i];
+            }
+            return null;
+        }
     }
 }

@@ -18,6 +18,8 @@ namespace SylphScript.Functions
             .Add("null", "bool", "object")
             .Add("null", "bool", "object", "object");
 
+        public ReferenceName ReferenceObject { get; set; }
+
         public _If()
         {
 

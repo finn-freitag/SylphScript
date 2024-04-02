@@ -24,6 +24,8 @@ namespace SylphScript.Functions
             .Add("null", "null", "bool", "null", "object")
             .Add("null", "null", "null", "null", "object");
 
+        public ReferenceName ReferenceObject { get; set; }
+
         public IFunction GetNewInstance()
         {
             return new _ForLoop3Params();

@@ -22,7 +22,7 @@ namespace SylphScript.Operators
 
         public ObjectHolder Process(IFunction obj1, IFunction obj2, VariableHolder vHolder)
         {
-            return new ObjectHolder((string)obj1.GetResult(vHolder).Object + (string)obj2.GetResult(vHolder).Object, "string");
+            return new ObjectHolder((string)obj1.GetResult(vHolder).Object + (char)obj2.GetResult(vHolder).Object, "string");
         }
     }
 }

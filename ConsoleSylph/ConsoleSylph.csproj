@@ -51,6 +51,9 @@
     <Compile Include="Functions\setTitle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Color.cs" />
+    <Compile Include="Types\ColorFunctions\Apply.cs" />
+    <Compile Include="Types\ColorFunctions\Color.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

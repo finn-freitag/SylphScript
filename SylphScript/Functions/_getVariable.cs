@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SylphScript.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,13 @@ namespace SylphScript.Functions
             }
         }
 
+        public ReferenceName ReferenceObject { get; set; }
+
         private string VariableName = "";
         private ReferenceName type = "";
+        private List<(object, TokenType)> tokens = null;
+
+        private _getVariable() { }
 
         public _getVariable(string VariableName, ReferenceName type)
         {
@@ -31,14 +37,59 @@ namespace SylphScript.Functions
             this.type = type;
         }
 
+        public _getVariable(List<(object, TokenType)> tokens, ReferenceName lastTypeName)
+        {
+            type = lastTypeName;
+            this.tokens = tokens;
+        }
+
         public IFunction GetNewInstance()
         {
-            return new _getVariable(VariableName, type);
+            return new _getVariable()
+            {
+                VariableName = VariableName,
+                type = type,
+                tokens = tokens,
+            };
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            return variableHolder.GetVariable(VariableName);
+            if (VariableName != "" && tokens == null)
+                return variableHolder.GetVariable(VariableName);
+            if (VariableName == "" && tokens != null)
+            {
+                VariableHolder currentVHolder = variableHolder;
+                ObjectHolder currentValue = null;
+                string lastReferenceObj = "";
+                for (int i = 0; i < tokens.Count; i++)
+                {
+                    if (tokens[i].Item2 == TokenType.Variable)
+                    {
+                        currentValue = currentVHolder.GetVariable((string)tokens[i].Item1);
+                        lastReferenceObj = (string)tokens[i].Item1;
+                    }
+                    if (tokens[i].Item2 == TokenType.Function)
+                    {
+                        IFunction func = ((IFunction)tokens[i].Item1);
+                        func.ReferenceObject = lastReferenceObj;
+                        currentValue = func.GetResult(currentVHolder);
+                        if (func.AssignedReturnType == "null")
+                            continue;
+                        currentVHolder = TypeRegistry.FindType(currentValue.TypeFullName).ConvertToVHolder(currentValue.Object);
+                        if (currentVHolder == null)
+                            currentVHolder = new VariableHolder();
+                    }
+                }
+                return currentValue;
+            }
+            throw new InvalidOperationException();
         }
+    }
+
+    public enum TokenType
+    {
+        Function,
+        Variable
     }
 }

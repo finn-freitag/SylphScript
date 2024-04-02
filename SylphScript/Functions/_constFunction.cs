@@ -16,6 +16,8 @@ namespace SylphScript.Functions
 
         public ArgResPermutation Parameters { get; private set; }
 
+        public ReferenceName ReferenceObject { get; set; }
+
         private ObjectHolder holder = null;
 
         public _constFunction(ObjectHolder holder)

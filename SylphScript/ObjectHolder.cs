@@ -18,5 +18,10 @@ namespace SylphScript
             Object = @object;
             TypeFullName = typeFullName;
         }
+
+        public ObjectHolder Clone()
+        {
+            return new ObjectHolder(Object, TypeFullName);
+        }
     }
 }

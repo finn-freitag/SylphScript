@@ -15,7 +15,10 @@ namespace SylphScript.Functions
         public ArgResPermutation Parameters { get
             {
                 return ArgResPermutation.Build().Add(value.AssignedReturnType);
-            } }
+            }
+        }
+
+        public ReferenceName ReferenceObject { get; set; }
 
         string variableName = "";
         IFunction value = null;

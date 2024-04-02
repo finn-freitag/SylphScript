@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SylphScript;
 
-namespace ConsoleSylph.Functions
+namespace SylphScript.Types.stringFunctions
 {
-    public class readKey : IFunction
+    public class CharAt : IFunction
     {
         public IFunction NextFunction { get; set; }
         public ReferenceName AssignedReturnType { get; set; }
         public IFunction[] AssignedParameters { get; set; }
 
-        public ReferenceName FullName => "readKey";
+        public ReferenceName FullName => "CharAt";
 
-        public ArgResPermutation Parameters => ArgResPermutation.Build().Add("null");
+        public ArgResPermutation Parameters => ArgResPermutation.Build().Add("char", "int");
 
         public ReferenceName ReferenceObject { get; set; }
 
         public IFunction GetNewInstance()
         {
-            return new readKey();
+            return new CharAt();
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            Console.ReadKey();
-            return ObjectHolder.Null;
+            char c = ((string)variableHolder.GetVariable(ReferenceObject).Object)[(int)AssignedParameters[0].GetResult(variableHolder).Object];
+            return new ObjectHolder(c, "char");
         }
     }
 }

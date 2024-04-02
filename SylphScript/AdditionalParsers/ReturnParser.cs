@@ -20,7 +20,7 @@ namespace SylphScript.AdditionalParsers
                 ParserHelper.SkipSpace(ref index, code);
                 IFunction returnValue;
                 returnValue = Parser.Parse(ref index, code, vHolder);
-                @return Return = new @return();
+                _return Return = new _return();
                 Return.AssignedParameters = new IFunction[] { returnValue };
                 return (Return, true);
             }

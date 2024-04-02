@@ -20,6 +20,8 @@ namespace ConsoleSylph.Functions
             .Add("null")
             .Add("null", "int", "int");
 
+        public ReferenceName ReferenceObject { get; set; }
+
         public IFunction GetNewInstance()
         {
             return new beep();

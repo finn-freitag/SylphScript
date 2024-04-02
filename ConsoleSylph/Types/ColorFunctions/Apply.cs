@@ -1,36 +1,33 @@
-﻿using System;
+﻿using SylphScript;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SylphScript;
 
-namespace ConsoleSylph.Functions
+namespace ConsoleSylph.Types.ColorFunctions
 {
-    public class color : IFunction
+    public class Apply : IFunction
     {
         public IFunction NextFunction { get; set; }
         public ReferenceName AssignedReturnType { get; set; }
         public IFunction[] AssignedParameters { get; set; }
-
-        public ReferenceName FullName => "color";
-
-        public ArgResPermutation Parameters => ArgResPermutation.Build()
-            .Add("null", "int", "int")
-            .Add("null", "int", "null")
-            .Add("null", "null", "int");
-
         public ReferenceName ReferenceObject { get; set; }
+
+        public ReferenceName FullName => "Apply";
+
+        public ArgResPermutation Parameters => ArgResPermutation.Build().Add("null");
 
         public IFunction GetNewInstance()
         {
-            return new color();
+            return new Apply();
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            if (AssignedParameters[0] != null) Console.BackgroundColor = IntToColor((int)AssignedParameters[0].GetResult(variableHolder).Object, ConsoleColor.Black);
-            if (AssignedParameters[1] != null) Console.ForegroundColor = IntToColor((int)AssignedParameters[1].GetResult(variableHolder).Object, ConsoleColor.White);
+            Tuple<int, int> color = (Tuple<int, int>)variableHolder.GetVariable(ReferenceObject).Object;
+            Console.ForegroundColor = IntToColor(color.Item1, ConsoleColor.White);
+            Console.BackgroundColor = IntToColor(color.Item2, ConsoleColor.Black);
             return ObjectHolder.Null;
         }
 

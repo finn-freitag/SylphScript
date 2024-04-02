@@ -25,6 +25,8 @@ namespace SylphScript.Functions
             }
         }
 
+        public ReferenceName ReferenceObject { get; set; }
+
         private IOperator op = null;
 
         public _operator(IOperator op)

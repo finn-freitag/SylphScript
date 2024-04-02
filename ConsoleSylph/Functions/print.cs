@@ -19,7 +19,10 @@ namespace ConsoleSylph.Functions
                     .Add("null", "string")
                     .Add("null", "int")
                     .Add("null", "double");
-            } }
+            }
+        }
+
+        public ReferenceName ReferenceObject { get; set; }
 
         public IFunction GetNewInstance()
         {

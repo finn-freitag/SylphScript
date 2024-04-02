@@ -25,6 +25,10 @@ namespace SylphScript
         {
             if (Variables.ContainsKey(name)) throw new InvalidOperationException("This variable does already exists!");
             Variables.Add(name, value);
+            IType type = TypeRegistry.FindType(value.TypeFullName);
+            if (type == null) throw new InvalidOperationException("Type does not exist!");
+            for (int i = 0; i < type.Variables.Count; i++)
+                AddVariable(name + '.' + type.Variables[i].name, type.Variables[i].defaultValue.Clone());
         }
 
         public void SetVariable(string name, ObjectHolder value)
@@ -55,7 +59,7 @@ namespace SylphScript
         {
             VariableHolder holder = new VariableHolder();
             holder.Parent = this;
-            holder.PositionFullName = this.PositionFullName + "." + AdditionalPositionName;
+            holder.PositionFullName = this.PositionFullName + ".>" + AdditionalPositionName;
             return holder;
         }
     }
