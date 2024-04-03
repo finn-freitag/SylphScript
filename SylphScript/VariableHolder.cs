@@ -23,47 +23,129 @@ namespace SylphScript
 
         public void AddVariable(string name, ObjectHolder value)
         {
-            if (Variables.ContainsKey(name)) throw new InvalidOperationException("This variable does already exists!");
-            Variables.Add(name, value);
-            IType type = TypeRegistry.FindType(value.TypeFullName);
-            if (type == null) throw new InvalidOperationException("Type does not exist!");
-            for (int i = 0; i < type.Variables.Count; i++)
-                AddVariable(name + '.' + type.Variables[i].name, type.Variables[i].defaultValue.Clone());
+            string[] parts = name.Split('.');
+            if(parts.Length == 1)
+            {
+                if(Variables.ContainsKey(name) || (Parent != null && Parent.VariableExist(name)))
+                    throw new InvalidOperationException("This variable does already exist!");
+            }
+            else if (!Variables.ContainsKey(parts[0]))
+            {
+                if (Parent != null)
+                {
+                    Parent.AddVariable(name, value);
+                    return;
+                }
+                else
+                    throw new InvalidOperationException("This variable doesn't exist!");
+            }
+            VariableHolder lastVHolder = this;
+            for (int i = 0; i < parts.Length - 1; i++)
+            {
+                if (!lastVHolder.Variables.ContainsKey(parts[i]))
+                    throw new InvalidOperationException("This variable doesn't exist!");
+                lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
+            }
+            string lastPart = parts[parts.Length - 1];
+            if (lastVHolder.Variables.ContainsKey(lastPart))
+                throw new InvalidOperationException("This variable does already exists!");
+            lastVHolder.Variables.Add(lastPart, value);
         }
 
         public void SetVariable(string name, ObjectHolder value, bool keepRefs = false)
         {
-            if (!Variables.ContainsKey(name))
+            string[] parts = name.Split('.');
+            if (!Variables.ContainsKey(parts[0]))
             {
-                if (Parent == null) throw new InvalidOperationException("This variable doesn't exist!");
-                Parent.SetVariable(name, value, keepRefs);
-                return;
+                if (Parent != null)
+                {
+                    Parent.SetVariable(name, value, keepRefs);
+                    return;
+                }
+                else
+                    throw new InvalidOperationException("This variable doesn't exist!");
             }
-            if (Variables[name].TypeFullName != value.TypeFullName) throw new InvalidOperationException("Variable type doesn't match the type of assignment!");
+            VariableHolder lastVHolder = this;
+            for (int i = 0; i < parts.Length - 1; i++)
+            {
+                if (!lastVHolder.Variables.ContainsKey(parts[i]))
+                    throw new InvalidOperationException("This variable doesn't exist!");
+                lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
+            }
+            string lastPart = parts[parts.Length - 1];
+            if (!lastVHolder.Variables.ContainsKey(lastPart))
+                throw new InvalidOperationException("This variable doesn't exist!");
+            if (lastVHolder.Variables[lastPart].TypeFullName != value.TypeFullName)
+                throw new InvalidOperationException("Variable type doesn't match the type of assignment!");
             if(keepRefs)
-                Variables[name].Object = value.Object;
+                lastVHolder.Variables[lastPart].Object = value.Object;
             else
-                Variables[name] = value;
+                lastVHolder.Variables[lastPart] = value;
         }
 
         public ObjectHolder GetVariable(string name)
         {
-            if(Variables.ContainsKey(name))return Variables[name];
-            if (Parent == null) throw new InvalidOperationException("This variable doesn't exist!");
-            return Parent.GetVariable(name);
+            string[] parts = name.Split('.');
+            if (!Variables.ContainsKey(parts[0]))
+            {
+                if (Parent != null)
+                    return Parent.GetVariable(name);
+                else
+                    throw new InvalidOperationException("This variable doesn't exist!");
+            }
+            VariableHolder lastVHolder = this;
+            for (int i = 0; i < parts.Length - 1; i++)
+            {
+                if (!lastVHolder.Variables.ContainsKey(parts[i]))
+                    throw new InvalidOperationException("This variable doesn't exist!");
+                lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
+            }
+            string lastPart = parts[parts.Length - 1];
+            if (lastVHolder.Variables.ContainsKey(lastPart))
+                return lastVHolder.Variables[lastPart];
+            throw new InvalidOperationException("This variable doesn't exist!");
         }
 
         public bool VariableExist(string name)
         {
-            return Variables.ContainsKey(name) || (Parent != null && Parent.VariableExist(name));
+            string[] parts = name.Split('.');
+            if (!Variables.ContainsKey(parts[0]))
+            {
+                if (Parent != null)
+                    return Parent.VariableExist(name);
+                else
+                    return false;
+            }
+            VariableHolder lastVHolder = this;
+            for (int i = 0; i < parts.Length - 1; i++)
+            {
+                if (!lastVHolder.Variables.ContainsKey(parts[i]))
+                    return false;
+                lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
+            }
+            string lastPart = parts[parts.Length - 1];
+            return lastVHolder.Variables.ContainsKey(lastPart) || (Parent != null && Parent.VariableExist(name));
         }
 
         public VariableHolder GetSubHolder(string AdditionalPositionName)
         {
             VariableHolder holder = new VariableHolder();
             holder.Parent = this;
-            holder.PositionFullName = this.PositionFullName + ".>" + AdditionalPositionName;
+            holder.PositionFullName = PositionFullName + "." + AdditionalPositionName;
             return holder;
+        }
+
+        public VariableHolder Clone()
+        {
+            VariableHolder vh = new VariableHolder();
+            vh.Parent = Parent;
+            vh.PositionFullName = PositionFullName;
+            vh.ReturnCallbackFunc = ReturnCallbackFunc;
+            foreach(var item in Variables)
+            {
+                vh.Variables.Add(item.Key, item.Value.Clone());
+            }
+            return vh;
         }
     }
 }

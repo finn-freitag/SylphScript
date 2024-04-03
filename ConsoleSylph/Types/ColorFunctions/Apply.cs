@@ -25,7 +25,7 @@ namespace ConsoleSylph.Types.ColorFunctions
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            Tuple<int, int> color = (Tuple<int, int>)variableHolder.GetVariable(ReferenceObject).Object;
+            Tuple<int, int> color = (Tuple<int, int>)new Types.Color().AppendPropsFromVHolder(null, variableHolder.GetVariable(ReferenceObject).SubHolder);
             Console.ForegroundColor = IntToColor(color.Item1, ConsoleColor.White);
             Console.BackgroundColor = IntToColor(color.Item2, ConsoleColor.Black);
             return ObjectHolder.Null;

@@ -14,6 +14,11 @@ namespace SylphScript.Types
 
         public List<(string name, ObjectHolder defaultValue)> Variables => new List<(string name, ObjectHolder defaultValue)>();
 
+        public object AppendPropsFromVHolder(object originalTypeEquivalent, VariableHolder vHolder)
+        {
+            return originalTypeEquivalent;
+        }
+
         public VariableHolder ConvertToVHolder(object typeEquivalent)
         {
             return null;

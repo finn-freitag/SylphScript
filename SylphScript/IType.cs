@@ -12,5 +12,6 @@ namespace SylphScript
         List<IFunction> SubFunctions { get; }
         List<(string name, ObjectHolder defaultValue)> Variables { get; }
         VariableHolder ConvertToVHolder(object typeEquivalent);
+        object AppendPropsFromVHolder(object originalTypeEquivalent, VariableHolder vHolder);
     }
 }

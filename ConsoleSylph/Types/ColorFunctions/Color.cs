@@ -28,13 +28,16 @@ namespace ConsoleSylph.Types.ColorFunctions
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
+            Tuple<int, int> val;
             if (AssignedParameters.Length == 0)
-                return new ObjectHolder(new Tuple<int, int>(15, 0), "Color");
-            if (AssignedParameters.Length == 1)
-                return new ObjectHolder(new Tuple<int, int>((int)AssignedParameters[0].GetResult(variableHolder).Object, 0), "Color");
-            if (AssignedParameters.Length == 2)
-                return new ObjectHolder(new Tuple<int, int>((int)AssignedParameters[0].GetResult(variableHolder).Object, (int)AssignedParameters[1].GetResult(variableHolder).Object), "Color");
-            throw new InvalidOperationException();
+                val = new Tuple<int, int>(15, 0);
+            else if (AssignedParameters.Length == 1)
+                val = new Tuple<int, int>((int)AssignedParameters[0].GetResult(variableHolder).Object, 0);
+            else if (AssignedParameters.Length == 2)
+                val = new Tuple<int, int>((int)AssignedParameters[0].GetResult(variableHolder).Object, (int)AssignedParameters[1].GetResult(variableHolder).Object);
+            else
+                throw new InvalidOperationException();
+            return new ObjectHolder(val, "Color", new Types.Color().ConvertToVHolder(val));
         }
     }
 }
