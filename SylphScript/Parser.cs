@@ -13,7 +13,7 @@ namespace SylphScript
         public static IFunction Parse(string code)
         {
             int i = 0;
-            return ParseMultiple(ref i, code, new VariableHolder());
+            return ParseMultiple(ref i, code, new VariableHolder(new ValueHolder()));
         }
         
         public static IFunction Parse(string code, VariableHolder vHolder)

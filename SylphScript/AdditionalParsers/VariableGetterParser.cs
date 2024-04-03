@@ -94,7 +94,7 @@ namespace SylphScript.AdditionalParsers
                             if (func.AssignedReturnType == "null")
                                 continue;
                             lastType = TypeRegistry.FindType(func.AssignedReturnType);
-                            lastVHolder = TypeHelper.ConvertToVariableHolder(lastType);
+                            lastVHolder = TypeHelper.ConvertToVariableHolder(lastType, vHolder.ValueHolder);
                             currentIdentifierPath = "";
                         }
                         else

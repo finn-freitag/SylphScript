@@ -152,6 +152,7 @@
     <Compile Include="Types\stringFunctions\CharAt.cs" />
     <Compile Include="Types\stringFunctions\Length.cs" />
     <Compile Include="VariableHolder.cs" />
+    <Compile Include="ValueHolder.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
