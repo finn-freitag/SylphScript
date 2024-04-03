@@ -22,6 +22,23 @@ namespace SylphScript.AdditionalParsers
             if (code[index] != '=') return (null, false);
             index++;
             ParserHelper.SkipSpace(ref index, code);
+            bool asReference = false;
+            bool keepRefs = false;
+            for(int i = 0; i < 2; i++)
+            {
+                if (code[index] == '*')
+                {
+                    index++;
+                    ParserHelper.SkipSpace(ref index, code);
+                    asReference = true;
+                }
+                if (code[index] == '+')
+                {
+                    index++;
+                    ParserHelper.SkipSpace(ref index, code);
+                    keepRefs = true;
+                }
+            }
             IFunction value = Parser.Parse(ref index, code, vHolder);
             if(secondID != "")
             {
@@ -33,10 +50,10 @@ namespace SylphScript.AdditionalParsers
                     _implConvertFunction convert = new _implConvertFunction(conversion);
                     convert.AssignedParameters = new IFunction[] { value };
                     vHolder.AddVariable(secondID, new ObjectHolder(null, firstID));
-                    return (new _Assignment(secondID, convert), true);
+                    return (new _Assignment(secondID, convert, asReference), true);
                 }
                 vHolder.AddVariable(secondID, new ObjectHolder(null, value.AssignedReturnType));
-                return (new _Assignment(secondID, value), true);
+                return (new _Assignment(secondID, value, asReference), true);
             }
             else
             {
@@ -47,9 +64,9 @@ namespace SylphScript.AdditionalParsers
                     if (conversion == null) return (null, false);
                     _implConvertFunction convert = new _implConvertFunction(conversion);
                     convert.AssignedParameters = new IFunction[] { value };
-                    return (new _Reassignment(firstID, convert), true);
+                    return (new _Reassignment(firstID, convert, asReference, keepRefs), true);
                 }
-                return (new _Reassignment(firstID, value), true);
+                return (new _Reassignment(firstID, value, asReference, keepRefs), true);
             }
             //string type = ParserHelper.GetIdentifier(ref index, code);
             //if (type == "") return (null, false);

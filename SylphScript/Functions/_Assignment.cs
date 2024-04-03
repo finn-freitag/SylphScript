@@ -22,22 +22,27 @@ namespace SylphScript.Functions
 
         string variableName = "";
         IFunction value = null;
+        bool asReference = false;
 
-        public _Assignment(string variableName, IFunction value)
+        public _Assignment(string variableName, IFunction value, bool asReference)
         {
             this.variableName = variableName;
             this.value = value;
+            this.asReference = asReference;
         }
 
         public IFunction GetNewInstance()
         {
-            return new _Assignment(variableName, value);
+            return new _Assignment(variableName, value, asReference);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
             var varContent = value.GetResult(variableHolder);
-            variableHolder.AddVariable(variableName, value.GetResult(variableHolder));
+            if (asReference)
+                variableHolder.AddVariable(variableName, varContent);
+            else
+                variableHolder.AddVariable(variableName, varContent.Clone());
             return varContent;
         }
     }

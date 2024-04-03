@@ -26,23 +26,30 @@ namespace SylphScript.Functions
 
         string variableName = "";
         IFunction value = null;
+        bool asReference = false;
+        bool keepRefs = false;
 
-        public _Reassignment(string variableName, IFunction value)
+        public _Reassignment(string variableName, IFunction value, bool asReference, bool keepRefs)
         {
             this.variableName = variableName;
             this.value = value;
+            this.asReference = asReference;
+            this.keepRefs = keepRefs;
         }
 
         public IFunction GetNewInstance()
         {
-            return new _Reassignment(variableName, value);
+            return new _Reassignment(variableName, value, asReference, keepRefs);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            ObjectHolder res = value.GetResult(variableHolder);
-            variableHolder.SetVariable(variableName, res);
-            return res;
+            var varContent = value.GetResult(variableHolder);
+            if (asReference)
+                variableHolder.SetVariable(variableName, varContent, keepRefs);
+            else
+                variableHolder.SetVariable(variableName, varContent.Clone(), keepRefs);
+            return varContent;
         }
     }
 }

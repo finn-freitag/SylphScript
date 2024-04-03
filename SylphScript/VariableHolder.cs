@@ -31,16 +31,19 @@ namespace SylphScript
                 AddVariable(name + '.' + type.Variables[i].name, type.Variables[i].defaultValue.Clone());
         }
 
-        public void SetVariable(string name, ObjectHolder value)
+        public void SetVariable(string name, ObjectHolder value, bool keepRefs = false)
         {
             if (!Variables.ContainsKey(name))
             {
                 if (Parent == null) throw new InvalidOperationException("This variable doesn't exist!");
-                Parent.SetVariable(name, value);
+                Parent.SetVariable(name, value, keepRefs);
                 return;
             }
             if (Variables[name].TypeFullName != value.TypeFullName) throw new InvalidOperationException("Variable type doesn't match the type of assignment!");
-            Variables[name].Object = value.Object;
+            if(keepRefs)
+                Variables[name].Object = value.Object;
+            else
+                Variables[name] = value;
         }
 
         public ObjectHolder GetVariable(string name)
