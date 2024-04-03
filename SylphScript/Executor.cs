@@ -11,7 +11,7 @@ namespace SylphScript
     {
         public static void Execute(IFunction function)
         {
-            Execute(function, new VariableHolder(new ValueHolder()));
+            Execute(function, new VariableHolder());
         }
 
         public static void Execute(IFunction function, VariableHolder vHolder)

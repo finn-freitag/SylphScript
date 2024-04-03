@@ -21,10 +21,10 @@ namespace ConsoleSylph.Types
             ("Background", new ObjectHolder(0 , "int")),
         };
 
-        public VariableHolder ConvertToVHolder(object typeEquivalent, ValueHolder valueHolder)
+        public VariableHolder ConvertToVHolder(object typeEquivalent)
         {
             Tuple<int,int> tuple = typeEquivalent as Tuple<int,int>;
-            VariableHolder vh = new VariableHolder(valueHolder);
+            VariableHolder vh = new VariableHolder();
             vh.AddVariable("Foreground", new ObjectHolder(tuple.Item1, "int"));
             vh.AddVariable("Background", new ObjectHolder(tuple.Item2, "int"));
             return vh;

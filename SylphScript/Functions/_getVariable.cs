@@ -76,9 +76,9 @@ namespace SylphScript.Functions
                         currentValue = func.GetResult(currentVHolder);
                         if (func.AssignedReturnType == "null")
                             continue;
-                        currentVHolder = TypeRegistry.FindType(currentValue.TypeFullName).ConvertToVHolder(currentValue.Object, variableHolder.ValueHolder);
+                        currentVHolder = TypeRegistry.FindType(currentValue.TypeFullName).ConvertToVHolder(currentValue.Object);
                         if (currentVHolder == null)
-                            currentVHolder = new VariableHolder(variableHolder.ValueHolder);
+                            currentVHolder = new VariableHolder();
                     }
                 }
                 return currentValue;

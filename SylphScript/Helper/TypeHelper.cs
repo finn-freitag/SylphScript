@@ -8,9 +8,9 @@ namespace SylphScript.Helper
 {
     public static class TypeHelper
     {
-        public static VariableHolder ConvertToVariableHolder(IType type, ValueHolder valueHolder)
+        public static VariableHolder ConvertToVariableHolder(IType type)
         {
-            VariableHolder holder = new VariableHolder(valueHolder);
+            VariableHolder holder = new VariableHolder();
             for(int i = 0; i < type.Variables.Count; i++)
             {
                 holder.AddVariable(type.Variables[i].name, type.Variables[i].defaultValue);

@@ -19,7 +19,7 @@ namespace SylphScript.Types
 
         public List<(string name, ObjectHolder defaultValue)> Variables => new List<(string name, ObjectHolder defaultValue)>();
 
-        public VariableHolder ConvertToVHolder(object typeEquivalent, ValueHolder valueHolder)
+        public VariableHolder ConvertToVHolder(object typeEquivalent)
         {
             return null;
         }
