@@ -28,7 +28,7 @@ namespace SylphScript
             if(parts.Length == 1)
             {
                 if(Variables.ContainsKey(name) || (Parent != null && Parent.VariableExist(name)))
-                    throw new InvalidOperationException("This variable does already exist!");
+                    throw new VariableException("The variable \"" + name + "\" does already exists!", name);
             }
             else if (!Variables.ContainsKey(parts[0]))
             {
@@ -38,18 +38,18 @@ namespace SylphScript
                     return;
                 }
                 else
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             }
             VariableHolder lastVHolder = this;
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 if (!lastVHolder.Variables.ContainsKey(parts[i]))
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
                 lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
             }
             string lastPart = parts[parts.Length - 1];
             if (lastVHolder.Variables.ContainsKey(lastPart))
-                throw new InvalidOperationException("This variable does already exists!");
+                throw new VariableException("The variable \"" + name + "\" does already exists!", name);
             lastVHolder.Variables.Add(lastPart, value);
             if (Readonly)
                 ReadonlyVariables.Add(lastPart);
@@ -66,22 +66,22 @@ namespace SylphScript
                     return;
                 }
                 else
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             }
             VariableHolder lastVHolder = this;
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 if (!lastVHolder.Variables.ContainsKey(parts[i]))
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
                 lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
             }
             string lastPart = parts[parts.Length - 1];
             if (!lastVHolder.Variables.ContainsKey(lastPart))
-                throw new InvalidOperationException("This variable doesn't exist!");
+                throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             if (lastVHolder.Variables[lastPart].TypeFullName != value.TypeFullName)
-                throw new InvalidOperationException("Variable type doesn't match the type of assignment!");
+                throw new VariableException("Variable type doesn't match the type of assignment!", name);
             if (lastVHolder.ReadonlyVariables.Contains(lastPart))
-                throw new InvalidOperationException("This variable is readonly!");
+                throw new VariableReadonlyException("The variable \"" + name + "\" is readonly!", name);
             if(keepRefs)
                 lastVHolder.Variables[lastPart].Object = value.Object;
             else
@@ -98,19 +98,19 @@ namespace SylphScript
                 if (Parent != null)
                     return Parent.GetVariable(name);
                 else
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             }
             VariableHolder lastVHolder = this;
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 if (!lastVHolder.Variables.ContainsKey(parts[i]))
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
                 lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
             }
             string lastPart = parts[parts.Length - 1];
             if (lastVHolder.Variables.ContainsKey(lastPart))
                 return lastVHolder.Variables[lastPart];
-            throw new InvalidOperationException("This variable doesn't exist!");
+            throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
         }
 
         public bool VariableExist(string name)
@@ -142,18 +142,18 @@ namespace SylphScript
                 if (Parent != null)
                     return Parent.VariableExist(name);
                 else
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             }
             VariableHolder lastVHolder = this;
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 if (!lastVHolder.Variables.ContainsKey(parts[i]))
-                    throw new InvalidOperationException("This variable doesn't exist!");
+                    throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
                 lastVHolder = lastVHolder.Variables[parts[i]].SubHolder;
             }
             string lastPart = parts[parts.Length - 1];
             if(!(lastVHolder.Variables.ContainsKey(lastPart) || (Parent != null && Parent.VariableExist(name))))
-                throw new InvalidOperationException("This variable doesn't exist!");
+                throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             return lastVHolder.ReadonlyVariables.Contains(lastPart);
         }
 

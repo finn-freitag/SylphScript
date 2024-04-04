@@ -85,7 +85,7 @@ namespace SylphScript.Functions
                 }
                 return currentValue;
             }
-            throw new InvalidOperationException();
+            throw new SylphException("Internal error!");
         }
     }
 

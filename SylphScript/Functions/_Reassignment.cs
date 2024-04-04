@@ -112,7 +112,7 @@ namespace SylphScript.Functions
                     return clone;
                 }
             }
-            throw new InvalidOperationException();
+            throw new SylphException("Internal error!");
         }
     }
 }

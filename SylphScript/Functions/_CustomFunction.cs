@@ -42,7 +42,7 @@ namespace SylphScript.Functions
             VariableHolder subHolder = variableHolder.GetSubHolder(FullName);
 
             if (AssignedParameters.Length != parameterNames.Length)
-                throw new InvalidOperationException("Parameter error!");
+                throw new SylphException("Parameter error in function \"" + FullName + "\"!");
 
             for(int i = 0; i < AssignedParameters.Length; i++)
             {

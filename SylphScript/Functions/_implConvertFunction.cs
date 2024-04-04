@@ -40,7 +40,7 @@ namespace SylphScript.Functions
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            if (AssignedParameters.Length != 1) throw new InvalidOperationException("Invalid type cast!");
+            if (AssignedParameters.Length != 1) throw new SylphException("Invalid type cast!");
             return conversion.Convert(AssignedParameters[0].GetResult(variableHolder));
         }
     }

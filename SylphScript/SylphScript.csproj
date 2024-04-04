@@ -61,6 +61,7 @@
     <Compile Include="Conversions\IntegerToByte.cs" />
     <Compile Include="Conversions\IntegerToDouble.cs" />
     <Compile Include="Executor.cs" />
+    <Compile Include="ExpressionException.cs" />
     <Compile Include="FunctionsRegistry.cs" />
     <Compile Include="Functions\_Assignment.cs" />
     <Compile Include="Functions\_constFunction.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Operators\SubtractTwoDoubles.cs" />
     <Compile Include="Operators\SubtractTwoIntegers.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="ParserException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceName.cs" />
     <Compile Include="AdditionalParserRegistry.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="AdditionalParsers\NumberParser.cs" />
     <Compile Include="AdditionalParsers\NullParser.cs" />
     <Compile Include="AdditionalParsers\StringParser.cs" />
+    <Compile Include="SylphException.cs" />
     <Compile Include="TypeRegistry.cs" />
     <Compile Include="Types\bool.cs" />
     <Compile Include="Types\byte.cs" />
@@ -152,7 +155,11 @@
     <Compile Include="Types\string.cs" />
     <Compile Include="Types\stringFunctions\CharAt.cs" />
     <Compile Include="Types\stringFunctions\Length.cs" />
+    <Compile Include="UnknownFunctionException.cs" />
+    <Compile Include="VariableDoesNotExistException.cs" />
+    <Compile Include="VariableException.cs" />
     <Compile Include="VariableHolder.cs" />
+    <Compile Include="VariableReadonlyException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

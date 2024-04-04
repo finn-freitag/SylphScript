@@ -57,6 +57,7 @@ namespace SylphScript
             }
 
             ParserHelper.SkipSpace(ref i, code);
+            int functionStart = i;
             string currentFuncName = ParserHelper.GetIdentifier(ref i, code); // get function name
             if (currentFuncName != "")
             {
@@ -66,7 +67,7 @@ namespace SylphScript
                 bool first = true;
                 while (code[i] != ')') // Enumerate parameters
                 {
-                    if ((first && code[i] != '(') || (!first && code[i] != ',')) throw new InvalidOperationException("Invalid syntax!");
+                    if ((first && code[i] != '(') || (!first && code[i] != ',')) throw new ParserException("Invalid function parameter syntax!", i);
                     first = false;
                     i++;
                     if (code[i] == ')') break;
@@ -133,11 +134,11 @@ namespace SylphScript
                         }
                     }
                 }
-                throw new InvalidOperationException("Unknown function: \"" + currentFuncName + "\" (" + parameters.Count + " parameters)!");
+                throw new UnknownFunctionException("Unknown function: \"" + currentFuncName + "\" (" + parameters.Count + " parameters)!", currentFuncName, functionStart);
             }
             else
             {
-                throw new InvalidOperationException("Invalid syntax!");
+                throw new ExpressionException("Unknown expression!", functionStart);
             }
         }
     }
