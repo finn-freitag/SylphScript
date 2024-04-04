@@ -40,10 +40,16 @@ namespace SylphScript.Functions
         {
             var varContent = value.GetResult(variableHolder);
             if (asReference)
+            {
                 variableHolder.AddVariable(variableName, varContent);
+                return varContent;
+            }
             else
-                variableHolder.AddVariable(variableName, varContent.Clone());
-            return varContent;
+            {
+                ObjectHolder clone = varContent.Clone();
+                variableHolder.AddVariable(variableName, clone);
+                return clone;
+            }
         }
     }
 }

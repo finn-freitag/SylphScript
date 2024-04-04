@@ -17,6 +17,49 @@ namespace SylphScript.AdditionalParsers
             string firstID = ParserHelper.GetIdentifier(ref index, code);
             if (firstID == "") return (null, false);
             ParserHelper.SkipSpace(ref index, code);
+            List<(object, TokenType)> tokens = new List<(object, TokenType)>();
+            IType lastType = null;
+            VariableHolder lastVHolder = null;
+            string currentIdentifierPath = "";
+            if (code[index] == '.')
+            {
+                tokens.Add((firstID, TokenType.Variable));
+                currentIdentifierPath = firstID;
+                lastType = TypeRegistry.FindType(vHolder.GetVariable(firstID).TypeFullName);
+                lastVHolder = vHolder;
+                while (code[index] == '.')
+                {
+                    index++;
+                    ParserHelper.SkipSpace(ref index, code);
+                    int backupIndex = index;
+                    string subIdentifier = ParserHelper.GetIdentifier(ref index, code);
+                    if (subIdentifier == "")
+                        return (null, false);
+                    ParserHelper.SkipSpace(ref index, code);
+                    if (code[index] == '(')
+                    {
+                        index = backupIndex;
+                        IFunction func = Parser.Parse(ref index, code, vHolder, false, false, lastType.SubFunctions);
+                        tokens.Add((func, TokenType.Function));
+                        if (func.AssignedReturnType == "null")
+                            return (null, false);
+                        lastType = TypeRegistry.FindType(func.AssignedReturnType);
+                        lastVHolder = TypeHelper.ConvertToVariableHolder(lastType);
+                        currentIdentifierPath = "";
+                    }
+                    else
+                    {
+                        currentIdentifierPath += "." + subIdentifier;
+                        currentIdentifierPath.Trim('.');
+                        if (tokens[tokens.Count - 1].Item2 == TokenType.Variable)
+                            tokens[tokens.Count - 1] = (currentIdentifierPath, tokens[tokens.Count - 1].Item2);
+                        else
+                            tokens.Add((subIdentifier, TokenType.Variable));
+                        lastType = TypeRegistry.FindType(lastVHolder.GetVariable(currentIdentifierPath).TypeFullName);
+                    }
+                    ParserHelper.SkipSpace(ref index, code);
+                }
+            }
             string secondID = ParserHelper.GetIdentifier(ref index, code);
             ParserHelper.SkipSpace(ref index, code);
             if (code[index] != '=') return (null, false);
@@ -57,39 +100,33 @@ namespace SylphScript.AdditionalParsers
             }
             else
             {
-                if (!vHolder.VariableExist(firstID)) return (null, false);
-                if (vHolder.GetVariable(firstID).TypeFullName != value.AssignedReturnType)
+                if(tokens.Count > 0)
                 {
-                    IConversion conversion = ConversionRegistry.GetImplicitConversion(value.AssignedReturnType, vHolder.GetVariable(firstID).TypeFullName);
-                    if (conversion == null) return (null, false);
-                    _implConvertFunction convert = new _implConvertFunction(conversion);
-                    convert.AssignedParameters = new IFunction[] { value };
-                    return (new _Reassignment(firstID, convert, asReference, keepRefs), true);
+                    if (!lastVHolder.VariableExist(currentIdentifierPath)) return (null, false);
+                    if (lastVHolder.GetVariable(currentIdentifierPath).TypeFullName != value.AssignedReturnType)
+                    {
+                        IConversion conversion = ConversionRegistry.GetImplicitConversion(value.AssignedReturnType, lastVHolder.GetVariable(currentIdentifierPath).TypeFullName);
+                        if (conversion == null) return (null, false);
+                        _implConvertFunction convert = new _implConvertFunction(conversion);
+                        convert.AssignedParameters = new IFunction[] { value };
+                        return (new _Reassignment(tokens, convert, asReference, keepRefs), true);
+                    }
+                    return (new _Reassignment(tokens, value, asReference, keepRefs), true);
                 }
-                return (new _Reassignment(firstID, value, asReference, keepRefs), true);
+                else
+                {
+                    if (!vHolder.VariableExist(firstID)) return (null, false);
+                    if (vHolder.GetVariable(firstID).TypeFullName != value.AssignedReturnType)
+                    {
+                        IConversion conversion = ConversionRegistry.GetImplicitConversion(value.AssignedReturnType, vHolder.GetVariable(firstID).TypeFullName);
+                        if (conversion == null) return (null, false);
+                        _implConvertFunction convert = new _implConvertFunction(conversion);
+                        convert.AssignedParameters = new IFunction[] { value };
+                        return (new _Reassignment(firstID, convert, asReference, keepRefs), true);
+                    }
+                    return (new _Reassignment(firstID, value, asReference, keepRefs), true);
+                }
             }
-            //string type = ParserHelper.GetIdentifier(ref index, code);
-            //if (type == "") return (null, false);
-            //for (int t = 0; t < TypeRegistry.Types.Count; t++)
-            //{
-            //    if (type == TypeRegistry.Types[t].Name)
-            //    {
-            //        ParserHelper.SkipSpace(ref index, code);
-            //        string name = ParserHelper.GetIdentifier(ref index, code);
-            //        if (name == "") return (null, false);
-            //        if (vHolder.VariableExist(name)) return (null, false);
-            //        ParserHelper.SkipSpace(ref index, code);
-            //        if (code[index] != '=') return (null, false);
-            //        index++;
-            //        ParserHelper.SkipSpace(ref index, code);
-            //        IFunction value = Parser.Parse(ref index, code, vHolder);
-            //        vHolder.AddVariable(name, new ObjectHolder(null, type));
-            //        _Assignment assignment = new _Assignment(name, value);
-            //        assignment.AssignedReturnType = type;
-            //        return (assignment, true);
-            //    }
-            //}
-            return (null, false);
         }
     }
 }

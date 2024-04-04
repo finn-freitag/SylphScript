@@ -25,6 +25,7 @@ namespace SylphScript.Functions
         public ReferenceName ReferenceObject { get; set; }
 
         string variableName = "";
+        List<(object, TokenType)> tokens;
         IFunction value = null;
         bool asReference = false;
         bool keepRefs = false;
@@ -37,6 +38,14 @@ namespace SylphScript.Functions
             this.keepRefs = keepRefs;
         }
 
+        public _Reassignment(List<(object, TokenType)> tokens, IFunction value, bool asReference, bool keepRefs)
+        {
+            this.tokens = tokens;
+            this.value = value;
+            this.asReference = asReference;
+            this.keepRefs = keepRefs;
+        }
+
         public IFunction GetNewInstance()
         {
             return new _Reassignment(variableName, value, asReference, keepRefs);
@@ -44,12 +53,61 @@ namespace SylphScript.Functions
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            var varContent = value.GetResult(variableHolder);
-            if (asReference)
-                variableHolder.SetVariable(variableName, varContent, keepRefs);
-            else
-                variableHolder.SetVariable(variableName, varContent.Clone(), keepRefs);
-            return varContent;
+            if (variableName != "" && tokens == null)
+            {
+                var varContent = value.GetResult(variableHolder);
+                if (asReference)
+                {
+                    variableHolder.SetVariable(variableName, varContent, keepRefs);
+                    return varContent;
+                }
+                else
+                {
+                    ObjectHolder clone = varContent.Clone();
+                    variableHolder.SetVariable(variableName, clone, keepRefs);
+                    return clone;
+                }
+            }
+            if (variableName == "" && tokens != null)
+            {
+                VariableHolder currentVHolder = variableHolder;
+                ObjectHolder currentValue = null;
+                string lastReferenceObj = "";
+                string lastVarName = "";
+                for (int i = 0; i < tokens.Count; i++)
+                {
+                    if (tokens[i].Item2 == TokenType.Variable)
+                    {
+                        lastVarName = (string)tokens[i].Item1;
+                        currentValue = currentVHolder.GetVariable(lastVarName);
+                        lastReferenceObj = (string)tokens[i].Item1;
+                    }
+                    if (tokens[i].Item2 == TokenType.Function)
+                    {
+                        IFunction func = ((IFunction)tokens[i].Item1);
+                        func.ReferenceObject = lastReferenceObj;
+                        currentValue = func.GetResult(currentVHolder);
+                        if (func.AssignedReturnType == "null")
+                            continue;
+                        currentVHolder = TypeRegistry.FindType(currentValue.TypeFullName).ConvertToVHolder(currentValue.Object);
+                        if (currentVHolder == null)
+                            currentVHolder = new VariableHolder();
+                    }
+                }
+                var varContent = value.GetResult(variableHolder);
+                if (asReference)
+                {
+                    currentVHolder.SetVariable(lastVarName, varContent, keepRefs);
+                    return varContent;
+                }
+                else
+                {
+                    ObjectHolder clone = varContent.Clone();
+                    currentVHolder.SetVariable(lastVarName, clone, keepRefs);
+                    return clone;
+                }
+            }
+            throw new InvalidOperationException();
         }
     }
 }
