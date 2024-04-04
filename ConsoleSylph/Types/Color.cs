@@ -14,11 +14,12 @@ namespace ConsoleSylph.Types
 
         public List<IFunction> SubFunctions => new List<IFunction>(){
             new Apply(),
+            new ApplyStatic(),
         };
 
         public List<(string name, ObjectHolder defaultValue)> Variables => new List<(string, ObjectHolder)>() {
             ("Foreground", new ObjectHolder(15, "int")),
-            ("Background", new ObjectHolder(0 , "int")),
+            ("Background", new ObjectHolder(0, "int")),
         };
 
         public object AppendPropsFromVHolder(object originalTypeEquivalent, VariableHolder vHolder)

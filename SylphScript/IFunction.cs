@@ -14,6 +14,7 @@ namespace SylphScript
         ReferenceName ReferenceObject { get; set; } // name to fetch the parent object from variableHolder, myString.charAt(0) -> "myString"
         ReferenceName FullName { get; }
         ArgResPermutation Parameters { get; }
+        Modifiers Modifiers { get; }
         ObjectHolder GetResult(VariableHolder variableHolder);
         IFunction GetNewInstance();
     }

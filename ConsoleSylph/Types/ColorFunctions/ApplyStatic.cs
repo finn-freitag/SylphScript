@@ -1,30 +1,31 @@
-﻿using System;
+﻿using SylphScript;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SylphScript;
 
-namespace ConsoleSylph.Functions
+namespace ConsoleSylph.Types.ColorFunctions
 {
-    public class color : IFunction
+    public class ApplyStatic : IFunction
     {
         public IFunction NextFunction { get; set; }
         public ReferenceName AssignedReturnType { get; set; }
         public IFunction[] AssignedParameters { get; set; }
+        public ReferenceName ReferenceObject { get; set; }
 
-        public ReferenceName FullName => "color";
+        public ReferenceName FullName => "Apply";
 
         public ArgResPermutation Parameters => ArgResPermutation.Build()
             .Add("null", "int", "int")
             .Add("null", "int", "null")
             .Add("null", "null", "int");
 
-        public ReferenceName ReferenceObject { get; set; }
+        public Modifiers Modifiers => Modifiers.Static;
 
         public IFunction GetNewInstance()
         {
-            return new color();
+            return new ApplyStatic();
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)

@@ -13,6 +13,8 @@ namespace SylphScript.Types.stringFunctions
         public IFunction[] AssignedParameters { get; set; }
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         public ReferenceName FullName => "Length";
 
         public ArgResPermutation Parameters => ArgResPermutation.Build().Add("int");

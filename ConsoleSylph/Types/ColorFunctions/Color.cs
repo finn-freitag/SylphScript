@@ -21,6 +21,8 @@ namespace ConsoleSylph.Types.ColorFunctions
             .Add("Color", "int")         // Foreground
             .Add("Color", "int", "int"); // Foreground, Background
 
+        public Modifiers Modifiers => Modifiers.None;
+
         public IFunction GetNewInstance()
         {
             return new Color();

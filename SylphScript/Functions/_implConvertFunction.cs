@@ -24,6 +24,8 @@ namespace SylphScript.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         private IConversion conversion = null;
 
         public _implConvertFunction(IConversion conversion)

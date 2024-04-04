@@ -18,6 +18,8 @@ namespace SylphScript.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         private IFunction code = null;
 
         private string[] parameterNames;

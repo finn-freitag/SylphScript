@@ -82,6 +82,7 @@
     <Compile Include="IOperator.cs" />
     <Compile Include="IAdditionalParser.cs" />
     <Compile Include="IType.cs" />
+    <Compile Include="Modifiers.cs" />
     <Compile Include="ObjectHolder.cs" />
     <Compile Include="OperatorGrade.cs" />
     <Compile Include="OperatorRegistry.cs" />

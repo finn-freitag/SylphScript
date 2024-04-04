@@ -25,6 +25,8 @@ namespace SylphScript.AdditionalParsers
             {
                 tokens.Add((firstID, TokenType.Variable));
                 currentIdentifierPath = firstID;
+                if (!vHolder.VariableExist(firstID))
+                    return (null, false);
                 lastType = TypeRegistry.FindType(vHolder.GetVariable(firstID).TypeFullName);
                 lastVHolder = vHolder;
                 while (code[index] == '.')

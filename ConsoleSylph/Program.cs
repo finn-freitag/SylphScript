@@ -18,7 +18,6 @@ namespace ConsoleSylph
                 if (File.Exists(args[0]))
                 {
                     FunctionsRegistry.Functions.Add(new beep());
-                    FunctionsRegistry.Functions.Add(new color());
                     FunctionsRegistry.Functions.Add(new print());
                     FunctionsRegistry.Functions.Add(new readKey());
                     FunctionsRegistry.Functions.Add(new readLine());

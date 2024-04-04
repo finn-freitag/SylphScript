@@ -27,6 +27,8 @@ namespace SylphScript.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         private IOperator op = null;
 
         public _operator(IOperator op)

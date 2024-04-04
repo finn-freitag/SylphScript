@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Functions\beep.cs" />
-    <Compile Include="Functions\color.cs" />
     <Compile Include="Functions\print.cs" />
     <Compile Include="Functions\readKey.cs" />
     <Compile Include="Functions\readLine.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Color.cs" />
     <Compile Include="Types\ColorFunctions\Apply.cs" />
+    <Compile Include="Types\ColorFunctions\ApplyStatic.cs" />
     <Compile Include="Types\ColorFunctions\Color.cs" />
   </ItemGroup>
   <ItemGroup>

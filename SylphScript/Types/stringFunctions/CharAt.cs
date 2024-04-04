@@ -18,6 +18,8 @@ namespace SylphScript.Types.stringFunctions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         public IFunction GetNewInstance()
         {
             return new CharAt();

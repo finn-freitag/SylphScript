@@ -19,6 +19,8 @@ namespace ConsoleSylph.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         public IFunction GetNewInstance()
         {
             return new readKey();

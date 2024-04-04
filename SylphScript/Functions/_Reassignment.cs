@@ -24,6 +24,8 @@ namespace SylphScript.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         string variableName = "";
         List<(object, TokenType)> tokens;
         IFunction value = null;

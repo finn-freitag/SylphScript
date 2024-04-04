@@ -18,6 +18,8 @@ namespace SylphScript.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
+        public Modifiers Modifiers => Modifiers.None;
+
         private ObjectHolder holder = null;
 
         public _constFunction(ObjectHolder holder)

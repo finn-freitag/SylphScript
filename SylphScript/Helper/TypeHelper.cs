@@ -17,5 +17,16 @@ namespace SylphScript.Helper
             }
             return holder;
         }
+
+        public static List<IFunction> GetStaticFunctions(IType type)
+        {
+            List<IFunction> staticFunctions = new List<IFunction>();
+            for(int i = 0; i < type.SubFunctions.Count; i++)
+            {
+                if ((type.SubFunctions[i].Modifiers & Modifiers.Static) == Modifiers.Static)
+                    staticFunctions.Add(type.SubFunctions[i]);
+            }
+            return staticFunctions;
+        }
     }
 }

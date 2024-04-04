@@ -18,6 +18,8 @@ namespace ConsoleSylph.Types.ColorFunctions
 
         public ArgResPermutation Parameters => ArgResPermutation.Build().Add("null");
 
+        public Modifiers Modifiers => Modifiers.None;
+
         public IFunction GetNewInstance()
         {
             return new Apply();
