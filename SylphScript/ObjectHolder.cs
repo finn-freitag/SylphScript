@@ -41,7 +41,7 @@ namespace SylphScript
                 for (int i = 0; i < type.Variables.Count; i++)
                 {
                     var v = type.Variables[i];
-                    SubHolder.AddVariable(v.name, v.defaultValue);
+                    SubHolder.AddVariable(v.name, v.defaultValue.Clone());
                 }
             }
             else

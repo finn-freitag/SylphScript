@@ -25,17 +25,19 @@ namespace SylphScript.Functions
         string variableName = "";
         IFunction value = null;
         bool asReference = false;
+        bool Readonly = false;
 
-        public _Assignment(string variableName, IFunction value, bool asReference)
+        public _Assignment(string variableName, IFunction value, bool asReference, bool Readonly)
         {
             this.variableName = variableName;
             this.value = value;
             this.asReference = asReference;
+            this.Readonly = Readonly;
         }
 
         public IFunction GetNewInstance()
         {
-            return new _Assignment(variableName, value, asReference);
+            return new _Assignment(variableName, value, asReference, Readonly);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
@@ -43,13 +45,13 @@ namespace SylphScript.Functions
             var varContent = value.GetResult(variableHolder);
             if (asReference)
             {
-                variableHolder.AddVariable(variableName, varContent);
+                variableHolder.AddVariable(variableName, varContent, Readonly);
                 return varContent;
             }
             else
             {
                 ObjectHolder clone = varContent.Clone();
-                variableHolder.AddVariable(variableName, clone);
+                variableHolder.AddVariable(variableName, clone, Readonly);
                 return clone;
             }
         }

@@ -10,5 +10,6 @@ namespace SylphScript
     {
         None = 0,
         Static = 1,
+        Readonly = 2,
     }
 }

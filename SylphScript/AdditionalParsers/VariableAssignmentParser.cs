@@ -14,6 +14,9 @@ namespace SylphScript.AdditionalParsers
 
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
+            bool ReadOnly = code[index] == '#';
+            if (ReadOnly) index++;
+            ParserHelper.SkipSpace(ref index, code);
             string firstID = ParserHelper.GetIdentifier(ref index, code);
             if (firstID == "") return (null, false);
             ParserHelper.SkipSpace(ref index, code);
@@ -95,10 +98,10 @@ namespace SylphScript.AdditionalParsers
                     _implConvertFunction convert = new _implConvertFunction(conversion);
                     convert.AssignedParameters = new IFunction[] { value };
                     vHolder.AddVariable(secondID, new ObjectHolder(null, firstID));
-                    return (new _Assignment(secondID, convert, asReference), true);
+                    return (new _Assignment(secondID, convert, asReference, ReadOnly), true);
                 }
                 vHolder.AddVariable(secondID, new ObjectHolder(null, value.AssignedReturnType));
-                return (new _Assignment(secondID, value, asReference), true);
+                return (new _Assignment(secondID, value, asReference, ReadOnly), true);
             }
             else
             {
@@ -111,9 +114,9 @@ namespace SylphScript.AdditionalParsers
                         if (conversion == null) return (null, false);
                         _implConvertFunction convert = new _implConvertFunction(conversion);
                         convert.AssignedParameters = new IFunction[] { value };
-                        return (new _Reassignment(tokens, convert, asReference, keepRefs), true);
+                        return (new _Reassignment(tokens, convert, asReference, keepRefs, ReadOnly), true);
                     }
-                    return (new _Reassignment(tokens, value, asReference, keepRefs), true);
+                    return (new _Reassignment(tokens, value, asReference, keepRefs, ReadOnly), true);
                 }
                 else
                 {
@@ -124,9 +127,9 @@ namespace SylphScript.AdditionalParsers
                         if (conversion == null) return (null, false);
                         _implConvertFunction convert = new _implConvertFunction(conversion);
                         convert.AssignedParameters = new IFunction[] { value };
-                        return (new _Reassignment(firstID, convert, asReference, keepRefs), true);
+                        return (new _Reassignment(firstID, convert, asReference, keepRefs, ReadOnly), true);
                     }
-                    return (new _Reassignment(firstID, value, asReference, keepRefs), true);
+                    return (new _Reassignment(firstID, value, asReference, keepRefs, ReadOnly), true);
                 }
             }
         }

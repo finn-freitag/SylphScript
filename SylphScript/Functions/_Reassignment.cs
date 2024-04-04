@@ -31,26 +31,29 @@ namespace SylphScript.Functions
         IFunction value = null;
         bool asReference = false;
         bool keepRefs = false;
+        bool Readonly = false;
 
-        public _Reassignment(string variableName, IFunction value, bool asReference, bool keepRefs)
+        public _Reassignment(string variableName, IFunction value, bool asReference, bool keepRefs, bool Readonly)
         {
             this.variableName = variableName;
             this.value = value;
             this.asReference = asReference;
             this.keepRefs = keepRefs;
+            this.Readonly = Readonly;
         }
 
-        public _Reassignment(List<(object, TokenType)> tokens, IFunction value, bool asReference, bool keepRefs)
+        public _Reassignment(List<(object, TokenType)> tokens, IFunction value, bool asReference, bool keepRefs, bool Readonly)
         {
             this.tokens = tokens;
             this.value = value;
             this.asReference = asReference;
             this.keepRefs = keepRefs;
+            this.Readonly = Readonly;
         }
 
         public IFunction GetNewInstance()
         {
-            return new _Reassignment(variableName, value, asReference, keepRefs);
+            return new _Reassignment(variableName, value, asReference, keepRefs, Readonly);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
@@ -60,13 +63,13 @@ namespace SylphScript.Functions
                 var varContent = value.GetResult(variableHolder);
                 if (asReference)
                 {
-                    variableHolder.SetVariable(variableName, varContent, keepRefs);
+                    variableHolder.SetVariable(variableName, varContent, keepRefs, Readonly);
                     return varContent;
                 }
                 else
                 {
                     ObjectHolder clone = varContent.Clone();
-                    variableHolder.SetVariable(variableName, clone, keepRefs);
+                    variableHolder.SetVariable(variableName, clone, keepRefs, Readonly);
                     return clone;
                 }
             }
@@ -99,13 +102,13 @@ namespace SylphScript.Functions
                 var varContent = value.GetResult(variableHolder);
                 if (asReference)
                 {
-                    currentVHolder.SetVariable(lastVarName, varContent, keepRefs);
+                    currentVHolder.SetVariable(lastVarName, varContent, keepRefs, Readonly);
                     return varContent;
                 }
                 else
                 {
                     ObjectHolder clone = varContent.Clone();
-                    currentVHolder.SetVariable(lastVarName, clone, keepRefs);
+                    currentVHolder.SetVariable(lastVarName, clone, keepRefs, Readonly);
                     return clone;
                 }
             }
