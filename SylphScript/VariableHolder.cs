@@ -109,7 +109,10 @@ namespace SylphScript
             }
             string lastPart = parts[parts.Length - 1];
             if (lastVHolder.Variables.ContainsKey(lastPart))
+            {
+                lastVHolder.FixAppendProps();
                 return lastVHolder.Variables[lastPart];
+            }
             throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
         }
 
@@ -155,6 +158,16 @@ namespace SylphScript
             if(!(lastVHolder.Variables.ContainsKey(lastPart) || (Parent != null && Parent.VariableExist(name))))
                 throw new VariableDoesNotExistException("The variable \"" + name + "\" doesn't exist!", name);
             return lastVHolder.ReadonlyVariables.Contains(lastPart);
+        }
+
+        public void FixAppendProps()
+        {
+            foreach(KeyValuePair<string, ObjectHolder> val in Variables)
+            {
+                if (val.Value.SubHolder != null)
+                    val.Value.SubHolder.FixAppendProps();
+                val.Value.Object = TypeRegistry.FindType(val.Value.TypeFullName).AppendPropsFromVHolder(val.Value.Object, val.Value.SubHolder);
+            }
         }
 
         public VariableHolder GetSubHolder(string AdditionalPositionName)
