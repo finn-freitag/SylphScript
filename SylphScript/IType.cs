@@ -13,5 +13,6 @@ namespace SylphScript
         List<(string name, ObjectHolder defaultValue)> Variables { get; }
         VariableHolder ConvertToVHolder(object typeEquivalent);
         object AppendPropsFromVHolder(object originalTypeEquivalent, VariableHolder vHolder);
+        object Clone(object typeEquivalent);
     }
 }

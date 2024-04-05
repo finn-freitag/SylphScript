@@ -29,11 +29,14 @@ namespace SylphScript
 
         public static bool operator ==(ReferenceName lhs, ReferenceName rhs)
         {
+            if ((object)lhs == null && (object)rhs == null) return true;
             return lhs.Equals(rhs);
         }
 
         public static bool operator !=(ReferenceName lhs, ReferenceName rhs)
         {
+            if ((object)lhs == null && (object)rhs == null) return false;
+            if (((object)lhs == null && (object)rhs != null) || ((object)lhs != null && (object)rhs == null)) return true;
             return !lhs.Equals(rhs);
         }
 

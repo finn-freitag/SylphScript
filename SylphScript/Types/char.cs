@@ -23,5 +23,10 @@ namespace SylphScript.Types
         {
             return null;
         }
+
+        public object Clone(object typeEquivalent)
+        {
+            return typeEquivalent;
+        }
     }
 }

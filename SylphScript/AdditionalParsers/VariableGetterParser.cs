@@ -42,7 +42,7 @@ namespace SylphScript.AdditionalParsers
                         if (code[index] == '(')
                         {
                             index = backupIndex;
-                            IFunction func = Parser.Parse(ref index, code, vHolder, false, false, staticFuncs);
+                            IFunction func = Parser.Parse(ref index, code, new VariableHolder(), false, false, staticFuncs);
                             tokens.Add((func, TokenType.Function));
                             if (func.AssignedReturnType != "null")
                             {
@@ -59,7 +59,7 @@ namespace SylphScript.AdditionalParsers
                         currentIdentifierPath = identifier;
                         lastType = TypeRegistry.FindType(vHolder.GetVariable(identifier).TypeFullName);
                     }
-                    while (code[index] == '.')
+                    while (index < code.Length && code[index] == '.')
                     {
                         index++;
                         ParserHelper.SkipSpace(ref index, code);
@@ -71,7 +71,7 @@ namespace SylphScript.AdditionalParsers
                         if (code[index] == '(')
                         {
                             index = backupIndex;
-                            IFunction func = Parser.Parse(ref index, code, vHolder, false, false, lastType.SubFunctions);
+                            IFunction func = Parser.Parse(ref index, code, new VariableHolder(), false, false, lastType.SubFunctions);
                             tokens.Add((func, TokenType.Function));
                             if (func.AssignedReturnType == "null")
                                 continue;

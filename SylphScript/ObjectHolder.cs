@@ -52,7 +52,7 @@ namespace SylphScript
 
         public ObjectHolder Clone()
         {
-            return new ObjectHolder(Object, TypeFullName, SubHolder);
+            return new ObjectHolder(TypeRegistry.FindType(TypeFullName).Clone(Object), TypeFullName, SubHolder);
         }
     }
 }

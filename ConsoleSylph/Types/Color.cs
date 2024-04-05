@@ -39,5 +39,11 @@ namespace ConsoleSylph.Types
             vh.AddVariable("Background", new ObjectHolder(tuple.Item2, "int"));
             return vh;
         }
+
+        public object Clone(object typeEquivalent)
+        {
+            Tuple<int, int> tuple = typeEquivalent as Tuple<int, int>;
+            return new Tuple<int, int>(tuple.Item1, tuple.Item2);
+        }
     }
 }
