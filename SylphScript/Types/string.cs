@@ -11,10 +11,13 @@ namespace SylphScript.Types
     {
         public string Name => "string";
 
-        public List<IFunction> SubFunctions => new List<IFunction>()
+        public IFunctionRegistry SubFunctions => new SubFunctionsRegistry()
         {
-            new CharAt(),
-            new Length(),
+            FunctionList = new List<IFunction>()
+            {
+                new CharAt(),
+                new Length(),
+            }
         };
 
         public List<(string name, ObjectHolder defaultValue)> Variables => new List<(string name, ObjectHolder defaultValue)>();

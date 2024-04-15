@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalParsers\BoolParser.cs" />
+    <Compile Include="AdditionalParsers\ClassParser.cs" />
     <Compile Include="AdditionalParsers\CRLFParser.cs" />
     <Compile Include="AdditionalParsers\CustomFunctionParser.cs" />
     <Compile Include="AdditionalParsers\DoWhileParser.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IConversion.cs" />
     <Compile Include="IFunction.cs" />
+    <Compile Include="IFunctionRegistry.cs" />
     <Compile Include="IOperator.cs" />
     <Compile Include="IAdditionalParser.cs" />
     <Compile Include="IType.cs" />
@@ -145,11 +147,14 @@
     <Compile Include="AdditionalParsers\NumberParser.cs" />
     <Compile Include="AdditionalParsers\NullParser.cs" />
     <Compile Include="AdditionalParsers\StringParser.cs" />
+    <Compile Include="SubFunctionsRegistry.cs" />
     <Compile Include="SylphException.cs" />
+    <Compile Include="TypeMismatchException.cs" />
     <Compile Include="TypeRegistry.cs" />
     <Compile Include="Types\bool.cs" />
     <Compile Include="Types\byte.cs" />
     <Compile Include="Types\char.cs" />
+    <Compile Include="Types\CustomType.cs" />
     <Compile Include="Types\double.cs" />
     <Compile Include="Types\int.cs" />
     <Compile Include="Types\string.cs" />

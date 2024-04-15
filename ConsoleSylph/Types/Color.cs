@@ -12,9 +12,12 @@ namespace ConsoleSylph.Types
     {
         public string Name => "Color";
 
-        public List<IFunction> SubFunctions => new List<IFunction>(){
-            new Apply(),
-            new ApplyStatic(),
+        public IFunctionRegistry SubFunctions => new SubFunctionsRegistry(){
+            FunctionList = new List<IFunction>()
+            {
+                new Apply(),
+                new ApplyStatic(),
+            }
         };
 
         public List<(string name, ObjectHolder defaultValue)> Variables => new List<(string, ObjectHolder)>() {

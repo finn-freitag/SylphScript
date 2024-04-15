@@ -10,7 +10,7 @@ namespace SylphScript.Types
     {
         public string Name => "byte";
 
-        public List<IFunction> SubFunctions => new List<IFunction>();
+        public IFunctionRegistry SubFunctions => new SubFunctionsRegistry();
 
         public List<(string name, ObjectHolder defaultValue)> Variables => new List<(string name, ObjectHolder defaultValue)>();
 

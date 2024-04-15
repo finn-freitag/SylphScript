@@ -22,9 +22,11 @@ namespace SylphScript
             return ParseMultiple(ref i, code, vHolder);
         }
 
-        public static IFunction ParseMultiple(ref int i, string code, VariableHolder vHolder)
+        public static IFunction ParseMultiple(ref int i, string code, VariableHolder vHolder, Action newFunctionAction = null)
         {
             IFunction lastFunction = Parse(ref i, code, vHolder);
+            if (newFunctionAction != null)
+                newFunctionAction();
             IFunction first = lastFunction;
             ParserHelper.SkipSpace(ref i, code);
             while (code.Length - i > 2 && code[i] != '}')
@@ -34,11 +36,13 @@ namespace SylphScript
                 lastFunction.NextFunction = newFunction;
                 lastFunction = newFunction;
                 ParserHelper.SkipSpace(ref i, code);
+                if (newFunctionAction != null)
+                    newFunctionAction();
             }
             return first;
         }
 
-        public static IFunction Parse(ref int i, string code, VariableHolder vHolder, bool useTypeParsers = true, bool useAdditionalParsers = true, List<IFunction> useFunctionSet = null)
+        public static IFunction Parse(ref int i, string code, VariableHolder vHolder, bool useTypeParsers = true, bool useAdditionalParsers = true, IFunctionRegistry useFunctionSet = null)
         {
             if (useAdditionalParsers || useTypeParsers)
             {
@@ -79,15 +83,15 @@ namespace SylphScript
                 }
                 i++;
                 IFunction result = null;
-                if (useFunctionSet == null) useFunctionSet = FunctionsRegistry.Functions;
-                for (int f = 0; f < useFunctionSet.Count; f++) // Enumerate functions, find matching function
+                if (useFunctionSet == null) useFunctionSet = FunctionsRegistry.Global;
+                for (int f = 0; f < useFunctionSet.FunctionList.Count; f++) // Enumerate functions, find matching function
                 {
-                    if (useFunctionSet[f].FullName == currentFuncName)
+                    if (useFunctionSet.FunctionList[f].FullName == currentFuncName)
                     {
-                        ReferenceName returnType = useFunctionSet[f].Parameters.GetResultType(paramTypes.ToArray());
+                        ReferenceName returnType = useFunctionSet.FunctionList[f].Parameters.GetResultType(paramTypes.ToArray());
                         if (returnType != null)
                         {
-                            result = useFunctionSet[f].GetNewInstance();
+                            result = useFunctionSet.FunctionList[f].GetNewInstance();
                             result.AssignedReturnType = returnType;
                             result.AssignedParameters = parameters.ToArray();
                             return result;
@@ -96,19 +100,19 @@ namespace SylphScript
                 }
                 if (result == null)
                 {
-                    for (int f = 0; f < useFunctionSet.Count; f++) // Enumerate functions, find function that matches using implicit conversions
+                    for (int f = 0; f < useFunctionSet.FunctionList.Count; f++) // Enumerate functions, find function that matches using implicit conversions
                     {
-                        if (useFunctionSet[f].FullName == currentFuncName)
+                        if (useFunctionSet.FunctionList[f].FullName == currentFuncName)
                         {
-                            for (int j = 0; j < useFunctionSet[f].Parameters.permutation.Count; j++)
+                            for (int j = 0; j < useFunctionSet.FunctionList[f].Parameters.permutation.Count; j++)
                             {
-                                if (useFunctionSet[f].Parameters.permutation[j].Parameters.Count == paramTypes.Count)
+                                if (useFunctionSet.FunctionList[f].Parameters.permutation[j].Parameters.Count == paramTypes.Count)
                                 {
                                     bool foundConversion = true;
                                     List<IConversion> conversions = new List<IConversion>();
                                     for (int c = 0; c < paramTypes.Count; c++)
                                     {
-                                        IConversion con = ConversionRegistry.GetImplicitConversion(paramTypes[c], useFunctionSet[f].Parameters.permutation[j].Parameters[c]);
+                                        IConversion con = ConversionRegistry.GetImplicitConversion(paramTypes[c], useFunctionSet.FunctionList[f].Parameters.permutation[j].Parameters[c]);
                                         if (con == null)
                                         {
                                             foundConversion = false;
@@ -124,8 +128,8 @@ namespace SylphScript
                                             implConFunc.AssignedParameters = new IFunction[] { parameters[c] };
                                             parameters[c] = implConFunc;
                                         }
-                                        result = useFunctionSet[f].GetNewInstance();
-                                        result.AssignedReturnType = useFunctionSet[f].Parameters.permutation[j].Result;
+                                        result = useFunctionSet.FunctionList[f].GetNewInstance();
+                                        result.AssignedReturnType = useFunctionSet.FunctionList[f].Parameters.permutation[j].Result;
                                         result.AssignedParameters = parameters.ToArray();
                                         return result;
                                     }

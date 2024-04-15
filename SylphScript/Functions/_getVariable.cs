@@ -1,4 +1,5 @@
 ﻿using SylphScript.Helper;
+using SylphScript.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +79,11 @@ namespace SylphScript.Functions
                         currentValue = func.GetResult(currentVHolder);
                         if (func.AssignedReturnType == "null")
                             continue;
-                        currentVHolder = TypeRegistry.FindType(currentValue.TypeFullName).ConvertToVHolder(currentValue.Object);
+                        IType t = TypeRegistry.FindType(currentValue.TypeFullName);
+                        if (t is CustomType)
+                            currentVHolder = currentValue.SubHolder;
+                        else
+                            currentVHolder = t.ConvertToVHolder(currentValue.Object);
                         if (currentVHolder == null)
                             currentVHolder = new VariableHolder();
                     }
