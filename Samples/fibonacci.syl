@@ -1,0 +1,15 @@
+int t1 = 1
+int t2 = 1
+int next = t1 + t2
+
+print(t1 + CRLF)
+print(t2 + CRLF)
+
+while(next < 1000000){
+	print(next + CRLF)
+	t1 = t2
+	t2 = next
+	next = t1 + t2
+}
+
+readKey()
