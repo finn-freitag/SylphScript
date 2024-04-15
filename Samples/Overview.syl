@@ -1,0 +1,84 @@
+setTitle("Test")
+
+var content = 3 + 5 * 2 // Dot/Dash priorities supported!
+
+print(content + CRLF)
+beep()
+/*content = "test"*/
+Color.Apply(5, 9) // Usage of predefined class.
+
+string createText(int num){ // Register function befor you use them
+	return ("Frequency: " + num) + CRLF // Reasons for brackets: small bug with implicit conversion (Issue #1)
+}
+
+string addTest(string str){ // Register function befor you use them
+	return str
+}
+
+class Vector{ // Classes are still prone to errors in certain cases.
+	int X = 0
+	int Y = 0
+	
+	Vector Vector(){} // You need to create an empty constructor. You can use it in other constructors. Most probably I will fix it later.
+	
+	Vector Vector(int x, int y){
+		Vector v = Vector()
+		v.X = x
+		v.Y = y
+		return v
+	}
+	
+	static Vector Add(Vector v1, Vector v2){ // Until now you can only define static functions (Issue #9)
+		return Vector(v1.X + v2.X, v1.Y + v2.Y)
+	}
+}
+
+Vector vec = Vector(3, 5) // Create an object like this.
+int x = Vector.Add(vec, Vector(2, 7)).X
+print("X:" + x)
+
+print(CRLF)
+
+string tstr1 = "This is a " // variable initialization
+string tstr2 = tstr1    // Value would be copied
+string tstr3 =* tstr1   // Reference would be copied
+tstr1 =+ tstr1 + "test" // Assignment of a new value for "tstr1" but also for all references! If you change "=+" to "=" just "tstr1" would be overwritten.
+print(tstr1 + CRLF)
+print(tstr2 + CRLF)
+print(tstr3 + CRLF)
+
+int someInt = 15
+# someInt = 10 // Use a '#' to make variables readonly. You can also do this retrospectively.
+//someInt = 5
+print(someInt)
+
+string bla = 15.0 % 6 + "xy"
+
+if(true){
+	print(bla + " true" + CRLF)
+}else{
+	print(2 + CRLF)
+}
+
+Color col = Color(9, 7)
+int Foreground =* col.Foreground // Next example of reference semantics.
+Foreground =+ 2
+col.Background =+ 9
+col.Apply()
+print(("Foreground: " + col.Foreground) + CRLF)
+print(("Background: " + col.Background) + CRLF)
+
+print("\r\n")
+int counter = 0
+do{
+	//print(counter + CRLF)
+	print(createText(counter * 1000)) // Usage of a function (see above)
+	counter = counter + 1
+	beep(counter * 1000, 500)
+}while (counter < 20)
+
+var hello = "Hello"
+print("\"Hello\" length: " + hello.Length())
+
+//print(content)
+readKey()

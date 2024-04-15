@@ -48,6 +48,7 @@
     <Compile Include="Functions\readKey.cs" />
     <Compile Include="Functions\readLine.cs" />
     <Compile Include="Functions\setTitle.cs" />
+    <Compile Include="Functions\sylph.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Color.cs" />
