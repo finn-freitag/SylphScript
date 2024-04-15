@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SylphScript.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,15 +19,29 @@ namespace SylphScript.Helper
             return holder;
         }
 
-        public static List<IFunction> GetStaticFunctions(IType type)
+        public static IFunctionRegistry GetStaticFunctions(IType type)
         {
-            List<IFunction> staticFunctions = new List<IFunction>();
-            for(int i = 0; i < type.SubFunctions.Count; i++)
+            IFunctionRegistry staticFunctions = new SubFunctionsRegistry();
+            for(int i = 0; i < type.SubFunctions.FunctionList.Count; i++)
             {
-                if ((type.SubFunctions[i].Modifiers & Modifiers.Static) == Modifiers.Static)
-                    staticFunctions.Add(type.SubFunctions[i]);
+                if ((type.SubFunctions.FunctionList[i].Modifiers & Modifiers.Static) == Modifiers.Static)
+                    staticFunctions.FunctionList.Add(type.SubFunctions.FunctionList[i]);
             }
             return staticFunctions;
+        }
+
+        public static ObjectHolder CreateInstance(IType type)
+        {
+            return new ObjectHolder(null, type.Name);
+            /*VariableHolder vh = new VariableHolder();
+            for(int i = 0; i < type.Variables.Count; i++)
+            {
+                if(type is CustomType ct)
+                    vh.AddVariable(type.Variables[i].name, type.Variables[i].defaultValue.Clone(), ct.ReadonlyVars.Contains(type.Variables[i].name));
+                else
+                    vh.AddVariable(type.Variables[i].name, type.Variables[i].defaultValue.Clone());
+            }
+            return new ObjectHolder(null, type.Name, vh);*/
         }
     }
 }

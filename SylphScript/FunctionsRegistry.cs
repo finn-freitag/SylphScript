@@ -8,11 +8,15 @@ using System.Threading.Tasks;
 
 namespace SylphScript
 {
-    public static class FunctionsRegistry
+    public class FunctionsRegistry : IFunctionRegistry
     {
+        public static FunctionsRegistry Global = new FunctionsRegistry();
+
         public static List<IFunction> Functions = new List<IFunction>()
         {
             
         };
+
+        public List<IFunction> FunctionList => Functions;
     }
 }

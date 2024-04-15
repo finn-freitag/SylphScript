@@ -16,6 +16,7 @@ namespace SylphScript
         public Dictionary<string, ObjectHolder> Variables = new Dictionary<string, ObjectHolder>();
         public List<string> ReadonlyVariables = new List<string>();
         public ReturnCallback ReturnCallbackFunc = null;
+        public IFunctionRegistry CurrentFunctionRegistry = FunctionsRegistry.Global;
 
         public VariableHolder()
         {

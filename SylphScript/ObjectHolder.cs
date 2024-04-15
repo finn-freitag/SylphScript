@@ -44,7 +44,7 @@ namespace SylphScript
                     SubHolder.AddVariable(v.name, v.defaultValue.Clone());
                 }
             }
-            else
+            else if (SubHolder == null)
             {
                 SubHolder = type.ConvertToVHolder(Object);
             }
@@ -52,7 +52,7 @@ namespace SylphScript
 
         public ObjectHolder Clone()
         {
-            return new ObjectHolder(TypeRegistry.FindType(TypeFullName).Clone(Object), TypeFullName, SubHolder);
+            return new ObjectHolder(TypeRegistry.FindType(TypeFullName).Clone(Object), TypeFullName, (SubHolder == null ? null : SubHolder.Clone()));
         }
     }
 }

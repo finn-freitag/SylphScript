@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SylphScript.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,27 +19,35 @@ namespace SylphScript.Functions
 
         public ReferenceName ReferenceObject { get; set; }
 
-        public Modifiers Modifiers => Modifiers.None;
+        public Modifiers Modifiers { get; set; } = Modifiers.None;
 
         private IFunction code = null;
 
         private string[] parameterNames;
 
-        public _CustomFunction(ReferenceName functionName, IFunction code, ArgResPermutation parameters, string[] parameterNames)
+        private bool isConstructor = false;
+
+        public _CustomFunction(ReferenceName functionName, IFunction code, ArgResPermutation parameters, string[] parameterNames, Modifiers modifiers)
         {
             FullName = functionName;
             this.code = code;
             Parameters = parameters;
             this.parameterNames = parameterNames;
+            this.Modifiers = modifiers;
+            if (code is _DummyFunction && parameterNames.Length == 0 && code.NextFunction == null)
+                isConstructor = true;
         }
 
         public IFunction GetNewInstance()
         {
-            return new _CustomFunction(FullName, code, Parameters, parameterNames);
+            return new _CustomFunction(FullName, code, Parameters, parameterNames, Modifiers);
         }
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
+            if (isConstructor)
+                return TypeHelper.CreateInstance(TypeRegistry.FindType(Parameters.permutation[0].Result));
+
             VariableHolder subHolder = variableHolder.GetSubHolder(FullName);
 
             if (AssignedParameters.Length != parameterNames.Length)
@@ -46,7 +55,7 @@ namespace SylphScript.Functions
 
             for(int i = 0; i < AssignedParameters.Length; i++)
             {
-                subHolder.AddVariable(parameterNames[i], AssignedParameters[i].GetResult(variableHolder));
+                subHolder.AddVariable(parameterNames[i], AssignedParameters[i].GetResult(subHolder));
             }
 
             ObjectHolder result = ObjectHolder.Null;

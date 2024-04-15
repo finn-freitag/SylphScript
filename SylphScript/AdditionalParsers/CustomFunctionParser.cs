@@ -14,6 +14,12 @@ namespace SylphScript.AdditionalParsers
 
         public (IFunction Function, bool Success) Parse(ref int index, string code, VariableHolder vHolder)
         {
+            bool Static = ParserHelper.CheckPos(index, code, "static");
+            if (Static)
+            {
+                index += 6;
+                ParserHelper.SkipSpace(ref index, code);
+            }
             string firstID = ParserHelper.GetIdentifier(ref index, code);
             if (firstID == "") return (null, false);
             ParserHelper.SkipSpace(ref index, code);
@@ -23,6 +29,7 @@ namespace SylphScript.AdditionalParsers
             index++;
             ParserHelper.SkipSpace(ref index, code);
             List<(string Type, string Name)> parameter = new List<(string, string)>();
+            VariableHolder subVH = vHolder.GetSubHolder(secondID);
             while (code[index] != ')')
             {
                 string paramType = ParserHelper.GetIdentifier(ref index, code);
@@ -36,25 +43,30 @@ namespace SylphScript.AdditionalParsers
                 parameter.Add((paramType, paramName));
 
                 if (paramType.Length == 0 || paramName.Length == 0) return (null, false);
-                vHolder.AddVariable(paramName, new ObjectHolder(null, paramType));
+                subVH.AddVariable(paramName, new ObjectHolder(null, paramType));
             }
             index++;
             ParserHelper.SkipSpace(ref index, code);
             if (index >= code.Length) return (null, false);
             if (code[index] != '{') return (null, false);
             index++;
+            ParserHelper.SkipSpace(ref index, code);
             if (index >= code.Length) return (null, false);
-            IFunction funcBody = Parser.ParseMultiple(ref index, code, vHolder.GetSubHolder(secondID));
+            IFunction funcBody = new _DummyFunction();
+            if (code[index] != '}')
+                funcBody = Parser.ParseMultiple(ref index, code, subVH);
             ParserHelper.SkipSpace(ref index, code);
             if (index >= code.Length || code[index] != '}') return (null, false);
             index++;
 
             _CustomFunction customFunction = new _CustomFunction(secondID, funcBody,
-                ArgResPermutation.Build().Add(firstID, parameter.Select((val) => { return (ReferenceName)val.Type; }).ToArray()),
-                parameter.Select((val) => { return val.Name; }).ToArray()
+                ArgResPermutation.Build().Add(firstID,
+                parameter.Select((val) => { return (ReferenceName)val.Type; }).ToArray()),
+                parameter.Select((val) => { return val.Name; }).ToArray(),
+                (Static ? Modifiers.Static : Modifiers.None)
             );
 
-            FunctionsRegistry.Functions.Add(customFunction);
+            vHolder.CurrentFunctionRegistry.FunctionList.Add(customFunction);
 
             return (new _DummyFunction(), true);
         }

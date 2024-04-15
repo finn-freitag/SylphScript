@@ -35,14 +35,14 @@ namespace SylphScript.AdditionalParsers
                         IType type = TypeRegistry.FindType(identifier);
                         if (type == null)
                             return (null, false);
-                        List<IFunction> staticFuncs = TypeHelper.GetStaticFunctions(type);
-                        if (staticFuncs.Count == 0)
+                        IFunctionRegistry staticFuncs = TypeHelper.GetStaticFunctions(type);
+                        if (staticFuncs.FunctionList.Count == 0)
                             return (null, false);
                         ParserHelper.SkipSpace(ref index, code);
                         if (code[index] == '(')
                         {
                             index = backupIndex;
-                            IFunction func = Parser.Parse(ref index, code, new VariableHolder(), false, false, staticFuncs);
+                            IFunction func = Parser.Parse(ref index, code, vHolder, false, false, staticFuncs);
                             tokens.Add((func, TokenType.Function));
                             if (func.AssignedReturnType != "null")
                             {
@@ -71,7 +71,7 @@ namespace SylphScript.AdditionalParsers
                         if (code[index] == '(')
                         {
                             index = backupIndex;
-                            IFunction func = Parser.Parse(ref index, code, new VariableHolder(), false, false, lastType.SubFunctions);
+                            IFunction func = Parser.Parse(ref index, code, vHolder, false, false, lastType.SubFunctions);
                             tokens.Add((func, TokenType.Function));
                             if (func.AssignedReturnType == "null")
                                 continue;
@@ -82,7 +82,7 @@ namespace SylphScript.AdditionalParsers
                         else
                         {
                             currentIdentifierPath += "." + subIdentifier;
-                            currentIdentifierPath.Trim('.');
+                            currentIdentifierPath = currentIdentifierPath.Trim('.');
                             if (tokens[tokens.Count - 1].Item2 == TokenType.Variable)
                                 tokens[tokens.Count - 1] = (currentIdentifierPath, tokens[tokens.Count - 1].Item2);
                             else
