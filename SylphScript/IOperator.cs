@@ -8,12 +8,24 @@ namespace SylphScript
 {
     public interface IOperator
     {
-        string OperatorName { get; } // Operatorname cannot contain brackets
-        bool IsOneParameterOperator { get; } // for example bool inversion ! Just Type1 is required
-        OperatorGrade Grade { get; } // To specify parser position
+        /// <summary>
+        /// Operatorname cannot contain brackets must cannot start with a letter or digit!
+        /// </summary>
+        string OperatorName { get; }
+        /// <summary>
+        /// for example bool inversion ! Just Type1 is required
+        /// </summary>
+        bool IsOneParameterOperator { get; }
+        /// <summary>
+        /// To specify parser position
+        /// </summary>
+        OperatorGrade Grade { get; }
         ReferenceName Type1 { get; }
         ReferenceName Type2 { get; }
         ReferenceName Result { get; }
-        ObjectHolder Process(IFunction obj1, IFunction obj2, VariableHolder vHolder); // takes functions and not an ObjectHolder because the & or the | operator can sometimes make its decision without both values. It's easier for the user to use this feature sometimes.
+        /// <summary>
+        /// takes functions and not an ObjectHolder because the & or the | operator can sometimes make its decision without both values. It's easier for the user to use this feature sometimes.
+        /// </summary>
+        ObjectHolder Process(IFunction obj1, IFunction obj2, VariableHolder vHolder);
     }
 }

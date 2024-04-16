@@ -12,7 +12,7 @@ namespace SylphScript.Helper
         {
             if (!CheckPos(i, code, "/*")) return false;
             i += 2;
-            while (!CheckPos(i - 2, code, "*/") && i < code.Length) i++;
+            while (i < code.Length && !CheckPos(i - 2, code, "*/")) i++;
             return true;
         }
 
@@ -20,7 +20,7 @@ namespace SylphScript.Helper
         {
             if (!CheckPos(i, code, "//")) return false;
             i += 2;
-            while (code[i] != '\n' && i < code.Length) i++;
+            while (i < code.Length && code[i] != '\n') i++;
             i++;
             return true;
         }

@@ -227,7 +227,7 @@ namespace SylphScript.AdditionalParsers
             string id = "";
             while (true)
             {
-                if (ParserHelper.SkipDoubleSlashComment(ref index, code) || ParserHelper.SkipSlashAsteriskComment(ref index, code) || code[index] == ' ' || code[index] == ')')
+                if (index >= code.Length || ParserHelper.SkipDoubleSlashComment(ref index, code) || ParserHelper.SkipSlashAsteriskComment(ref index, code) || code[index] == ' ' || code[index] == ')' || char.IsLetterOrDigit(code[index]))
                 {
                     IOperator[] op = OperatorRegistry.GetOperator(id);
                     if (op.Length == 0) return (null, false);

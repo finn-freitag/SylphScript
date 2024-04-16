@@ -1,5 +1,6 @@
 print("Enter a term: ")
 string term = readLine()
 var i = 0
-sylph("i = " + term + " print(\"The result is: \" + i)") // sylph-function can parse and execute SylphScript with variables, functions and types at the current position!
+sylph("i = " + term) // sylph-function can parse and execute SylphScript with variables, functions and types at the current position!
+print("The result is: " + i)
 readKey()

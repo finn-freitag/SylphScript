@@ -27,7 +27,7 @@ namespace ConsoleSylph.Functions
 
         public ObjectHolder GetResult(VariableHolder variableHolder)
         {
-            Executor.Execute(Parser.Parse((string)AssignedParameters[0].GetResult(variableHolder).Object, variableHolder), variableHolder);
+            Executor.Execute(Parser.Parse((string)AssignedParameters[0].GetResult(variableHolder).Object, variableHolder.Clone()), variableHolder);
             return ObjectHolder.Null;
         }
     }

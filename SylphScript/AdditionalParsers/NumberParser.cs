@@ -21,10 +21,11 @@ namespace SylphScript.AdditionalParsers
                 index++;
             }
             int num1;
-            if (!ParserHelper.GetNumber(ref index, code, out num1)) return (null, false);
+            if (!ParserHelper.GetNumber(ref index, code, out num1))
+                return (null, false);
             num1 *= multiplier;
             int num2 = 0;
-            if (code[index] == '.')
+            if (index < code.Length && code[index] == '.')
             {
                 index++;
                 ParserHelper.GetNumber(ref index, code, out num2);

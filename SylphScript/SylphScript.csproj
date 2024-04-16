@@ -87,6 +87,7 @@
     <Compile Include="IType.cs" />
     <Compile Include="Modifiers.cs" />
     <Compile Include="ObjectHolder.cs" />
+    <Compile Include="OperatorException.cs" />
     <Compile Include="OperatorGrade.cs" />
     <Compile Include="OperatorRegistry.cs" />
     <Compile Include="Operators\AddTwoDoubles.cs" />

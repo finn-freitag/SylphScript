@@ -73,17 +73,10 @@ namespace SylphScript
             List<IOperator> ops = new List<IOperator>();
             for(int i = 0; i < Operators.Count; i++)
             {
-                if (Operators[i].OperatorName == Operator) ops.Add(Operators[i]);
-            }
-            return ops.ToArray();
-        }
-
-        public static string[] GetOperatorStrings()
-        {
-            List<string> ops = new List<string>();
-            for (int i = 0; i < Operators.Count; i++)
-            {
-                ops.Add(Operators[i].OperatorName);
+                if (char.IsLetterOrDigit(Operators[i].OperatorName[0]))
+                    throw new OperatorException(Operators[i].OperatorName);
+                else if (Operators[i].OperatorName == Operator)
+                    ops.Add(Operators[i]);
             }
             return ops.ToArray();
         }
