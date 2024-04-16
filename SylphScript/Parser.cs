@@ -53,9 +53,15 @@ namespace SylphScript
                     if(useAdditionalParsers || (useTypeParsers && AdditionalParserRegistry.Parsers[p].isTypeParser))
                     {
                         int backupI = i;
-                        var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code, vHolder);
-                        if (parserRes.Success) return parserRes.Function;
-                        else i = backupI;
+                        VariableHolder vh = vHolder.Clone();
+                        var parserRes = AdditionalParserRegistry.Parsers[p].Parse(ref i, code, vh);
+                        if (parserRes.Success)
+                        {
+                            vHolder.Variables = vh.Variables;
+                            return parserRes.Function;
+                        }
+                        else
+                            i = backupI;
                     }
                 }
             }

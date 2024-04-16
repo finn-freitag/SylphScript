@@ -45,6 +45,7 @@ namespace ConsoleSylph.Types
 
         public object Clone(object typeEquivalent)
         {
+            if (typeEquivalent == null) return null;
             Tuple<int, int> tuple = typeEquivalent as Tuple<int, int>;
             return new Tuple<int, int>(tuple.Item1, tuple.Item2);
         }

@@ -185,6 +185,7 @@ namespace SylphScript
             vh.Parent = Parent;
             vh.PositionFullName = PositionFullName;
             vh.ReturnCallbackFunc = ReturnCallbackFunc;
+            vh.CurrentFunctionRegistry = CurrentFunctionRegistry;
             foreach(var item in Variables)
             {
                 vh.Variables.Add(item.Key, item.Value.Clone());
